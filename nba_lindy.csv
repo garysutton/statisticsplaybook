@@ -1,0 +1,90 @@
+franchise,parent_child,active_inactive,start,end,years,games,wins
+Atlanta Hawks,parent,active,1949,2020,72,5693,2808
+Atlanta Hawks,child,active,1968,2020,53,4273,2109
+St. Louis Hawks,child,inactive,1955,1967,13,1008,555
+Milwaukee Hawks,child,inactive,1951,1954,4,280,90
+Tri-Cities Blackhawks,child,inactive,1949,1950,2,132,54
+Boston Celtics,parent_only,active,1946,2020,75,5869,3462
+Brooklyn Nets,parent,active,1976,2020,45,3622,1533
+Brooklyn Nets,child,active,2012,2020,9,718,325
+New Jersey Nets,child,inactive,1977,2020,35,2822,1186
+New York Nets,child,inactive,1976,1976,1,82,22
+Charlotte Hornets,parent,active,1988,2020,31,2467,1083
+Charlotte Hornets,child,active,1988,2020,21,1663,790
+Charlotte Bobcats,child,inactive,2004,2013,10,804,293
+Chicago Bulls,parent_only,active,1966,2020,55,4434,2258
+Cleveland Cavaliers,parent_only,active,1970,2020,51,4107,1889
+Dallas Mavericks,parent_only,active,1980,2020,41,3297,1657
+Denver Nuggets2,parent_only,active,1976,2020,45,3623,1796
+Detroit Pistons,parent,active,1948,2020,73,5754,2774
+Detroit Pistons,child,active,1957,2020,64,5133,2460
+Ft. Wayne Zollner Pistons,child,inactive,1948,1956,9,621,314
+Golden State Warriors,parent,active,1946,2020,75,5857,2826
+Golden State Warriors,child,active,1971,2020,50,4025,1938
+San Francisco Warriors,child,inactive,1962,1970,9,729,330
+Philadelphia Warriors,child,inactive,1946,1961,16,1103,558
+Houston Rockets,parent,active,1967,2020,54,4360,2286
+Houston Rockets,child,active,1971,2020,50,4032,2167
+San Diego Rockets,child,inactive,1967,1970,4,328,119
+Indiana Pacers,parent_only,active,1976,2020,45,3623,1823
+LA Clippers,parent,active,1970,2020,51,4114,1706
+LA Clippers,child,active,2015,2020,6,472,290
+Los Angeles Clippers,child,inactive,1984,2014,31,2494,971
+San Diego Clippers,child,inactive,1978,1983,6,492,186
+Buffalo Braves,child,inactive,1970,1977,8,656,259
+Los Angeles Lakers,parent,active,1948,2020,73,5761,3429
+Los Angeles Lakers,child,active,1960,2020,61,4919,2970
+Minneapolis Lakers,child,inactive,1948,1959,12,842,459
+Memphis Grizzlies,parent,active,1995,2020,26,2065,864
+Memphis Grizzlies,child,active,2001,2020,20,1605,763
+Vancouver Grizzlies,child,active,1995,2000,6,460,101
+Miami Heat,parent,active,1988,2020,33,2639,1378
+Milwaukee Bucks,parent_only,active,1968,2020,53,4279,2231
+Minnesota Timberwolves,parent_only,active,1989,2020,32,2548,1003
+New Orleans Pelicans,parent,active,2002,2020,19,1522,704
+New Orleans Pelicans,child,active,2013,2020,8,636,285
+New Orleans Hornets,child,inactive,2002,2012,9,722,342
+New Orleans/Oklahoma City Hornets,child,inactive,2005,2006,2,164,77
+New York Knicks,parent_only,active,1946,2020,75,5860,2840
+Oklahoma City Thunder,parent,active,1967,2020,54,4360,2349
+Oklahoma City Thunder,child,active,2008,2020,13,1030,604
+Seattle SuperSonics,child,inactive,1967,2007,41,3330,1745
+Orlando Magic,parent_only,active,1989,2020,32,2557,1212
+Philadelphia 76ers,parent,active,1949,2020,72,5696,2950
+Philadelphia 76ers,child,active,1963,2020,58,4682,2373
+Syracuse Nationals,child,inactive,1949,1962,14,1014,577
+Phoenix Suns,parent_only,active,1968,2020,53,4279,2271
+Portland Trail Blazers,parent_only,active,1970,2020,51,4116,2211
+Sacramento Kings,parent,active,1948,2020,73,5760,2624
+Sacramento Kings,child,active,1985,2020,36,2884,1218
+Kansas City Kings,child,inactive,1975,1984,10,820,381
+Kansas City-Omaha Kings,child,inactive,1972,1974,3,246,113
+Cincinnati Royals,child,inactive,1957,1971,15,1189,555
+Rochester Royals,child,inactive,1948,1956,9,621,357
+San Antonio Spurs,parent_only,active,1976,2020,45,3621,2227
+Toronto Raptors,parent_only,active,1995,2020,26,2064,982
+Utah Jazz,parent,active,1974,2020,47,3786,2060
+Utah Jazz,child,active,1979,2020,42,3376,1899
+New Orleans Jazz,child,inactive,1974,1978,5,410,161
+Washington Wizards,parent,active,1961,2020,60,4841,2187
+Washington Wizards,child,active,1997,2020,24,1900,809
+Washington Bullets,child,inactive,1974,1996,23,1886,887
+Capital Bullets,child,inactive,1973,1973,1,82,47
+Baltimore Bullets,child,inactive,1963,1972,10,813,401
+Chicago Zephyrs,parent_only,inactive,1962,1962,1,80,25
+Chicago Packers,parent_only,inactive,1961,1961,1,80,18
+Anderson Packers,parent_only,inactive,1949,1949,1,64,37
+Baltimore Bullets,parent_only,inactive,1947,1953,7,450,158
+Chicago Stags,parent_only,inactive,1946,1949,4,240,147
+Cleveland Rebels,parent_only,inactive,1946,1946,1,60,30
+Denver Nuggets1,parent_only,inactive,1949,1949,1,62,11
+Detroit Falcons,parent_only,inactive,1946,1946,1,60,20
+Indianapolis Jets,parent_only,inactive,1948,1948,1,60,18
+Indianapolis Olympians,parent_only,inactive,1949,1952,4,269,132
+Pittsburgh Ironmen,parent_only,inactive,1946,1946,1,60,15
+Providence Steamrollers,parent_only,inactive,1946,1948,3,168,46
+Sheboygan Redskins,parent_only,inactive,1949,1949,1,62,22
+St. Louis Bombers,parent_only,inactive,1946,1949,4,237,122
+Toronto Huskies,parent_only,inactive,1946,1946,1,60,22
+Washington Capitols,parent_only,inactive,1946,1950,5,272,157
+Waterloo Hawks,parent_only,inactive,1949,1949,1,62,19
