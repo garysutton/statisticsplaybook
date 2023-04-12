@@ -4,9 +4,11 @@ dat1 <- read_csv('/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs
 
 dim(dat1)
 
-dat1 <- select(dat1, Year, Player, Pos, Tm, G, PTS)
+dat1 %>%
+  select(Year, Player, Pos, Tm, G, PTS) -> dat1
 
-dat1 <- filter(dat1, Year <= 1999)
+dat1 %>%
+  filter(Year <= 1999) -> dat1
 
 glimpse(dat1)
 
@@ -21,10 +23,12 @@ dat1 %>%
   filter(Tm == 'TOT') %>%
   tally()
 
-test2 <- filter(dat1, Year == 1950, Player == 'Ed Bartels')
+dat1 %>%
+  filter(Year == 1950, Player == 'Ed Bartels') -> test2
 print(test2)
 
-dat1 <- filter(dat1, Tm != 'TOT')
+dat1 %>%
+  filter(Tm != 'TOT') -> dat1
 dim(dat1)
 
 dat1 %>%
@@ -33,7 +37,8 @@ dat1 %>%
 
 dim(dat2)
 
-test3 <- filter(dat2, Year == 1950, Player == 'Ed Bartels')
+test3 %>%
+  filter(Year == 1950, Player == 'Ed Bartels') -> test3
 print(test3)
 
 dat1 %>%
@@ -52,10 +57,12 @@ dat2 %>%
   mutate(PPG = format(PTS/G, digits = 1, nsmall = 1)) -> dat2
 head(dat2)
 
-dat2 <- filter(dat2, PPG >= 2 & G >= 20)
+dat2 %>%
+  filter(PPG >= 2 & G >= 20) -> dat2
 dim(dat2)
 
-dat2 <- select(dat2, Year, Player, PPG)
+dat2 %>%
+  select(Year, Player, PPG) -> dat2
 
 dat2$PPG <- as.numeric(dat2$PPG)
 
@@ -92,7 +99,6 @@ var(dat4a$z_ppg)
 dat4a %>%
   group_by(Year) %>%
   slice(which.max(z_ppg)) -> dat4b
-
 
 p2 <- ggplot(dat4b, aes(x = Year_Player, y = z_ppg)) + 
   geom_bar(stat = "identity", color = "darkorange", fill = "darkorange") +
@@ -168,7 +174,7 @@ tail(dat7a, n = 3)
 dat7a %>%
   group_by(Year) %>%
   slice(which.max(r_ppg)) -> dat7b
-head(dat7a, n = 10)
-tail(dat7a, n = 10)
+head(dat7b, n = 10)
+tail(dat7b, n = 10)
 
 
