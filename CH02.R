@@ -62,10 +62,12 @@ sqldf("SELECT min(Age), Player, Tm, Pk, Year FROM draft")
 sqldf("SELECT max(Age), Player, Tm, Pk, Year FROM draft")
 
 p1 <- ggplot(draft, aes(x = WS)) + 
-  geom_histogram(fill = "royalblue3", color = "royalblue3", bins = 8) + 
+  geom_histogram(fill = "royalblue3", color = "royalblue3", 
+                 bins = 8) + 
   labs(title = "Career Win Shares Distribution of NBA First-Round Selections",
        subtitle = "2000-09 NBA Drafts",
-       x = "Career Win Shares", y = "Frequency") +
+       x = "Career Win Shares",
+       y = "Frequency") +
   theme(plot.title = element_text(face = "bold"))
 print(p1)
 
@@ -179,7 +181,6 @@ sqldf("SELECT COUNT (*) FROM draft WHERE WS < 0")
 
 draft %>%
   		select(c(Age, G:WS)) -> cor_draft
-The second step is to more or less convert cor_draft into a tabular view of the correlation coefficients by calling the base R cor() function to run the math and then the base R print() function to return the results. Our new object is cor_matrix. 
 cor_matrix <- cor(cor_draft)
 print (cor_matrix)
 
@@ -187,9 +188,11 @@ cor_table <- melt(cor_matrix)
 head(cor_table, n = 3)
 tail(cor_table, n = 3)
 
-p4 <- ggplot(data = draft_cor, aes(x = Var1, y = Var2, fill = value)) +
+p4 <- ggplot(data = draft_cor, aes(x = Var1, 
+                                   y = Var2, fill = value)) +
   geom_tile() +
-  scale_fill_gradient2(midpoint = 0.5, mid = "grey84", limits = c(-1, 1)) +
+  scale_fill_gradient2(midpoint = 0.5, mid = "grey84", 
+                       limits = c(-1, 1)) +
   labs(title = "Correlation Matrix", 
     subtitle = "Correlation Coefficients between Win Shares and Other Continuous Variables",
     x = "", 
@@ -197,7 +200,8 @@ p4 <- ggplot(data = draft_cor, aes(x = Var1, y = Var2, fill = value)) +
     fill = "Correlation\nCoefficient", 
     caption = "Source: draft data set") +
   theme(plot.title = element_text(face = "bold"), 
-  legend.title = element_text(face = "bold", color = "brown", size = 10)) +
+  legend.title = element_text(face = "bold", color = "brown", 
+                              size = 10)) +
   geom_text(aes(x = Var1, y = Var2, 
                 label = round(value, 2)), color = "black", 
   fontface = "bold", size = 5)
