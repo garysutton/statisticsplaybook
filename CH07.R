@@ -5,29 +5,35 @@ library(sqldf)
 library(effsize)
 library(patchwork)
 
-df1 <- read_csv('/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/nba_boxscore_1819.csv')
-df2 <- read_csv('/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/nba_boxscore_1920.csv')
+df1 <- read_csv("/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/nba_boxscore_1819.csv")
+df2 <- read_csv("/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/nba_boxscore_1920.csv")
 
-df3 <- filter(df1, VENUE == "R")
+df1 %>%
+  filter(VENUE == "R") -> df3
 
-df3 <- select(df3, DATASET, TEAM, VENUE, FT, FTA, PF)
+df3 %>%
+  select(DATASET, TEAM, VENUE, FT, FTA, PF) -> df3
 
-df3 %>% rename(dataset = DATASET, teamR = TEAM, venueR = VENUE, ftR = FT, ftaR = FTA,
+df3 %>% 
+  rename(dataset = DATASET, teamR = TEAM, venueR = VENUE, ftR = FT, ftaR = FTA,
                pfR = PF) -> df3
 
-df3$dataset <- factor(df3$dataset)
-df3$teamR <- factor(df3$teamR)
-df3$venueR <- factor(df3$venueR)
+df3$dataset <- as.factor(df3$dataset)
+df3$teamR <- as.factor(df3$teamR)
+df3$venueR <- as.factor(df3$venueR)
 
-df4 <- filter(df1, VENUE == "H")
+df1 %>%
+  filter(VENUE == "H") -> df4
 
-df4 <- select(df4, TEAM, VENUE, FT, FTA, PF)
+df4 %>% 
+  select(TEAM, VENUE, FT, FTA, PF) -> df4
 
-df4 %>% rename(teamH = TEAM, venueH = VENUE, ftH = FT, ftaH = FTA,
+df4 %>% 
+  rename(teamH = TEAM, venueH = VENUE, ftH = FT, ftaH = FTA,
                pfH = PF) -> df4
 
-df4$teamH <- factor(df4$teamH)
-df4$venueH <- factor(df4$venueH)
+df4$teamH <- as.factor(df4$teamH)
+df4$venueH <- as.factor(df4$venueH)
 
 dim(df3) 
 dim(df4)
@@ -69,7 +75,8 @@ p1 <- ggplot(temp1, aes(x = team, y = fouls, fill = team)) +
   theme(legend.position = "none") +
   scale_x_discrete(labels = temp1.text) +
   theme(plot.title = element_text(face = "bold")) +
-  stat_compare_means(method = "t.test", label.x = 1.4, label.y = 34)
+  stat_compare_means(method = "t.test", 
+                     label.x = 1.4, label.y = 34)
 
 temp2 <- select(fouls1819reg, c(5,10)) 
 temp2 %>%
@@ -89,7 +96,8 @@ p2 <- ggplot(temp2, aes(x = team, y = ftattempts, fill = team)) +
   theme(legend.position = "none") +
   scale_x_discrete(labels = temp2.text) +
   theme(plot.title = element_text(face = "bold")) +
-  stat_compare_means(method = "t.test", label.x = 1.4, label.y = 48)
+  stat_compare_means(method = "t.test", 
+                     label.x = 1.4, label.y = 48)
 
 p1 + p2 + plot_layout(ncol = 2)
 
@@ -117,7 +125,8 @@ temp3 %>%
                values_to = "fouls") -> temp3
 
 temp3.text <- c("Home Team", "Road Team")
-p3 <- ggplot(temp3, aes(x = team, y = fouls, fill = team)) + geom_boxplot() +
+p3 <- ggplot(temp3, aes(x = team, y = fouls, fill = team)) + 
+  geom_boxplot() +
   labs(title = "Personal Foul Calls: Home vs. Road Teams", 
        subtitle = "2019 Playoffs",
        x = "", 
@@ -137,12 +146,14 @@ temp4 %>%
 head(temp4)
 
 temp4.text <- c("Home Team", "Road Team")
-p4 <- ggplot(temp4, aes(x = team, y = ftattempts, fill = team)) + geom_boxplot() +
+p4 <- ggplot(temp4, aes(x = team, y = ftattempts, fill = team)) +
+  geom_boxplot() +
   labs(title = "Free Throw Attempts: Home vs. Road Teams", 
        subtitle = "2019 Playoffs",
        x = "", 
        y = "Free Throw Attempts per Game") +
-  stat_summary(fun = mean, geom = "point", shape = 20, size = 8, color = "white", fill = "white") + 
+  stat_summary(fun = mean, geom = "point", shape = 20, size = 8, 
+               color = "white", fill = "white") + 
   theme(legend.position = "none") +
   scale_x_discrete(labels = temp2.text) +
   theme(plot.title = element_text(face = "bold")) +
@@ -156,26 +167,32 @@ cohen.d(fouls1819post$pfR, fouls1819post$pfH)
 cohen.d(fouls1819reg$ftaR, fouls1819reg$ftaH)
 cohen.d(fouls1819post$ftaR, fouls1819post$ftaH)
 
-df5 <- filter(df2, VENUE == "R")
+df2 %>%
+  filter(VENUE == "R") -> df5
 
-df5 <- select(df5, DATASET, GAME_ID, TEAM, VENUE, FT, FTA, PF)
+df5 %>%
+  select(DATASET, GAME_ID, TEAM, VENUE, FT, FTA, PF) -> df5
 
-df5 %>% rename(dataset = DATASET, gameID = GAME_ID, teamR = TEAM, venueR = VENUE, ftR = FT, ftaR = FTA,
-               pfR = PF) -> df5
+df5 %>% 
+  rename(dataset = DATASET, gameID = GAME_ID, teamR = TEAM, venueR = VENUE, 
+         ftR = FT, ftaR = FTA, pfR = PF) -> df5
 
 df5$dataset <- factor(df5$dataset)
 df5$teamR <- factor(df5$teamR)
 df5$venueR <- factor(df5$venueR)
 
-df6 <- filter(df2, VENUE == "H")
+df2 %>%
+  filter(VENUE == "H") -> df6
 
-df6 <- select(df6, TEAM, VENUE, FT, FTA, PF)
+df6 %>%
+  select(TEAM, VENUE, FT, FTA, PF) -> df6
 
-df6 %>% rename(teamH = TEAM, venueH = VENUE, ftH = FT, ftaH = FTA,
+df6 %>% 
+  rename(teamH = TEAM, venueH = VENUE, ftH = FT, ftaH = FTA,
                pfH = PF) -> df6
 
-df6$teamH <- factor(df6$teamH)
-df6$venueH <- factor(df6$venueH)
+df6$teamH <- as.factor(df6$teamH)
+df6$venueH <- as.factor(df6$venueH)
 
 fouls1920 <- cbind(df5, df6)
 dim(df5) 
@@ -203,7 +220,8 @@ temp5 %>%
 head(temp5)
 
 temp5.text <- c("Home Team", "Road Team")
-p5 <- ggplot(temp5, aes(x = team, y = fouls, fill = team)) + geom_boxplot() +
+p5 <- ggplot(temp5, aes(x = team, y = fouls, fill = team)) +
+  geom_boxplot() +
   labs(title = "Personal Foul Calls: Home vs. Road Teams", 
        subtitle = "2019-20 Regular Season (pre-COVID)",
        x = "", 
@@ -223,7 +241,8 @@ temp6 %>%
 head(temp6)
 
 temp6.text <- c("Home Team", "Road Team")
-p6 <- ggplot(temp6, aes(x = team, y = ftattempts, fill = team)) + geom_boxplot() +
+p6 <- ggplot(temp6, aes(x = team, y = ftattempts, fill = team)) + 
+  geom_boxplot() +
   labs(title = "Free Throw Attempts: Home vs. Road Teams", 
        subtitle = "2019-20 Regular Season (pre-COVID)",
        x = "", 
@@ -258,7 +277,8 @@ temp7 %>%
 head(temp7)
 
 temp7.text <- c("Home Team", "Road Team")
-p7 <- ggplot(temp7, aes(x = team, y = fouls, fill = team)) + geom_boxplot() +
+p7 <- ggplot(temp7, aes(x = team, y = fouls, fill = team)) + 
+  geom_boxplot() +
   labs(title = "Personal Foul Calls: Home vs. Road Teams",
        subtitle = "2019-20 Regular Season (post-COVID)", 
        x = "", 
@@ -278,12 +298,14 @@ temp8 %>%
 head(temp8)
 
 temp8.text <- c("Home Team", "Road Team")
-p8 <- ggplot(temp8, aes(x = team, y = ftattempts, fill = team)) + geom_boxplot() +
+p8 <- ggplot(temp8, aes(x = team, y = ftattempts, fill = team)) + 
+  geom_boxplot() +
   labs(title = "Free Throw Attempts: Home vs. Road Teams",
        subtitle = "2019-20 Regular Season (post-COVID)", 
        x = "", 
        y = "Free Throw Attempts per Game") +
-  stat_summary(fun = mean, geom = "point", shape = 20, size = 8, color = "white", fill = "white") + 
+  stat_summary(fun = mean, geom = "point", shape = 20, size = 8, 
+               color = "white", fill = "white") + 
   theme(legend.position = "none") +
   scale_x_discrete(labels = temp1.text) +
   theme(plot.title = element_text(face = "bold")) +
