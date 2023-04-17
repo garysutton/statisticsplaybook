@@ -7,7 +7,8 @@ draft <- read_csv("/Users/garysutton/Library/Mobile Documents/com~apple~CloudDoc
 
 dim(draft)
 
-draft <- select(draft,-c(3,4,16:24))
+draft %>%
+  select(-c(3,4,16:24)) -> draft
 
 draft <- draft[-c(90, 131),]
 
@@ -18,7 +19,7 @@ tail(draft, 3)
 
 draft$Year <- as.factor(draft$Year)
 draft$Tm <- as.factor(draft$Tm)
-draft$Pos <- as.factor(draft$Pos)
+# draft$Pos <- as.factor(draft$Pos)
 draft$Born <- as.factor(draft$Born)
 draft$From <- as.factor(draft$From)
 draft$To <- as.factor(draft$To)
@@ -35,8 +36,15 @@ draft$College2 <- as.factor(draft$College2)
 levels(draft$Pos)
 
 draft$Pos2 <- draft$Pos
-recode(draft$Pos2, "C" = "Center", "C-F" = "Big", "F" = "Forward", "F-C" = "Big", "F-G" = "Swingman", "G" = "Guard", "G-F" = "Swingman") -> levels(draft$Pos2)
+draft$Pos2 <- recode(draft$Pos2, "C" = "Center", "C-F" = "Big", "F" = "Forward", "F-C" = "Big", "F-G" = "Swingman", "G" = "Guard", "G-F" = "Swingman") 
+levels(draft$Pos2)
 draft$College2 <- factor(draft$College2)
+
+draft$Pos2 <- draft$Pos
+draft$Pos2 <- recode(draft$Pos2, C = "Center", C-F = "Big", F = "Forward", F-C = "Big",
+       F-G = "Swingman", G = "Guard", G-F = "Swingman") 
+levels(draft$Pos2)
+draft$Pos2 <- factor(draft$Pos2)
 
 head(draft)
 
@@ -180,7 +188,7 @@ sqldf("SELECT COUNT (*) FROM draft WHERE WS < 5")
 sqldf("SELECT COUNT (*) FROM draft WHERE WS < 0")
 
 draft %>%
-  		select(c(Age, G:WS)) -> cor_draft
+  		select(c(Age, G:WS48)) -> cor_draft
 cor_matrix <- cor(cor_draft)
 print (cor_matrix)
 
