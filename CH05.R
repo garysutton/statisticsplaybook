@@ -9,7 +9,14 @@ hustle <- read_csv("/Users/garysutton/Library/Mobile Documents/com~apple~CloudDo
 
 glimpse(hustle)
 
+hustle$team <- as.factor(hustle$team)
+hustle$season <- as.factor(hustle$season)
+hustle$team_season <- as.factor(hustle$team_season)
+
 summary(hustle)
+
+hustle %>% 
+  select(-c(off_loose_balls, def_loose_balls)) -> hustle
 
 dim(hustle)
 
@@ -274,7 +281,8 @@ cor1 <- ggplot(hustle, aes(x = deflections, y = wins)) +
   theme(plot.title = element_text(face = "bold")) 
 print(cor1)
 
-hustle2 <- select(hustle,-c(1:3, 6, 8))
+hustle %>% 
+  select(-c(1:3, 6, 8)) -> hustle2
 ggpairs(hustle2)
 
 cor(hustle2)
@@ -292,7 +300,8 @@ tidy(fit1)
 hustle %>%
   filter(team_season == "MIA 17") %>%
   select(wins, screen_assists_pts, deflections, loose_balls, contested_2pt, contested_shots)
- wins = -62.91 + (1.04 * 22.3) + (2.23 * 14.2) + (5.38 * 7.2) + (0.52 * 45.5) - (0.24 * 64.7)
+
+wins = -62.91 + (1.04 * 22.3) + (2.23 * 14.2) + (5.38 * 7.2) + (0.52 * 45.5) - (0.24 * 64.7)
 print(round(wins))
 
 wins = -62.91 + (1.04 * 22.3) + (2.23 * 14.2) + (5.38 * 8.2) + (0.52 * 45.5) - (0.24 * 64.7)
@@ -336,7 +345,8 @@ plot(fit2)
 fit2_pred <- predict(fit2, data.frame(test), interval = 'confidence')
 print(fit2_pred)
 
-select(test, wins) -> test
+test %>%
+  select(wins) -> test
 
 cbind(fit2_pred, test) %>%
   mutate(wins_dif = abs(wins - fit)) -> fit_tbl_pred
