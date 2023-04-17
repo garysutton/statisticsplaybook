@@ -13,7 +13,7 @@ library(scales)
 # we use the patchwork package to bundle multiple plots into one object
 library(patchwork)
 
-free_agents <- read_csv('/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/free_agents.csv') # saved in default directory
+free_agents <- read_csv("/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/free_agents.csv") # saved in default directory
 
 dim(free_agents)
 
@@ -32,6 +32,8 @@ tail(free_agents, n = 3)
 
 summary(free_agents)
 
+options(scipen = 999)
+
 p1 <- ggplot(free_agents, aes(x = annual_salary)) +
   geom_density(alpha = .3, fill = "salmon") +
   geom_vline(aes(xintercept = mean(annual_salary, na.rm = TRUE)),
@@ -40,7 +42,8 @@ p1 <- ggplot(free_agents, aes(x = annual_salary)) +
              color = "blue", linetype = "longdash", size = .8) +
   labs(title = "Annual Salary Distribution",
        subtitle = "Shortlisted Free Agents",
-       x = "Annual Salary", y = "Density",
+       x = "Annual Salary", 
+       y = "Density",
        caption = "Salary data is illustrative only") +
   scale_x_continuous(labels = comma) +
   theme(plot.title = element_text(face = "bold")) +
@@ -136,10 +139,6 @@ p7 <- ggplot(free_agents, aes(x = annual_salary, y = win_shares)) +
   scale_x_continuous(label = scales::comma) +
   theme(plot.title = element_text(face = "bold"))
 print(p7)
-
-group_by(position1) %>%
-  tally() -> tibble1
-print(tibble1)
 
 free_agents %>%
   group_by(position1) %>%

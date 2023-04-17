@@ -3,10 +3,9 @@ library(networkD3)
 library(patchwork)
 
 packages <- c("tidyverse", "networkD3", "patchwork")
-The second and final step is to then call the base R lapply() function, as such:
   lapply(packages, library, character.only = TRUE)
 
-draft2 <- read.csv(“/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/draft2.csv”)
+draft2 <- read_csv("/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/draft2.csv")
 
 glimpse(draft2)
 
@@ -36,8 +35,10 @@ g1 <- ggplot(tibble1, aes(x = Pk2, y = mean)) +
        x = "Segment", 
        y = "Average Career Games Played",
        caption = "regular season games only") + 
-  scale_x_discrete(limits = c("1-5", "6-10", "11-15", "16-20", "21-25", "26-30"),
-                   labels = c("1-5", "6-10", "11-15", "16-20", "21-25", "26-30")) +
+  scale_x_discrete(limits = c("1-5", "6-10", "11-15", 
+                              "16-20", "21-25", "26-30"),
+                   labels = c("1-5", "6-10", "11-15", 
+                              "16-20", "21-25", "26-30")) +
   geom_text(aes(label = trunc(mean), vjust = -0.3)) +
   geom_label(aes(label = trunc(pct*100), vjust = 1.2)) +
   ylim(0, 800) +
@@ -51,8 +52,10 @@ g2 <- ggplot(tibble1, aes(x = Pk2, y = median)) +
        x = "Segment", 
        y = "Median Career Games Played",
        caption = "regular season games only") + 
-  scale_x_discrete(limits = c("1-5", "6-10", "11-15", "16-20", "21-25", "26-30"),
-                   labels = c("1-5", "6-10", "11-15", "16-20", "21-25", "26-30")) +
+  scale_x_discrete(limits = c("1-5", "6-10", "11-15", 
+                              "16-20", "21-25", "26-30"),
+                   labels = c("1-5", "6-10", "11-15", 
+                              "16-20", "21-25", "26-30")) +
   geom_text(aes(label = trunc(median), vjust = -0.3)) +
   geom_label(aes(label = trunc(pct*100), vjust = 1.2)) +
   ylim(0, 800) +
@@ -75,8 +78,10 @@ mp1 <- ggplot(tibble2, aes(x = Pk2, y = mean)) +
        x = "Segment", 
        y = "Average Minutes Played per Game",
        caption = "regular season games only") + 
-  scale_x_discrete(limits = c("1-5", "6-10", "11-15", "16-20", "21-25", "26-30"),
-                   labels = c("1-5", "6-10", "11-15", "16-20", "21-25", "26-30")) +
+  scale_x_discrete(limits = c("1-5", "6-10", "11-15", 
+                              "16-20", "21-25", "26-30"),
+                   labels = c("1-5", "6-10", "11-15", 
+                              "16-20", "21-25", "26-30")) +
   geom_text(aes(label = trunc(mean), vjust = -0.3)) +
   geom_label(aes(label = trunc(pct*100), vjust = 1.2)) +
   ylim(0, 30) +
@@ -90,8 +95,10 @@ mp2 <- ggplot(tibble2, aes(x = Pk2, y = median)) +
        x = "Segment", 
        y = "Median Minutes Played per Game",
        caption = "regular season games only") + 
-  scale_x_discrete(limits = c("1-5", "6-10", "11-15", "16-20", "21-25", "26-30"),
-                   labels = c("1-5", "6-10", "11-15", "16-20", "21-25", "26-30")) +
+  scale_x_discrete(limits = c("1-5", "6-10", "11-15", 
+                              "16-20", "21-25", "26-30"),
+                   labels = c("1-5", "6-10", "11-15", 
+                              "16-20", "21-25", "26-30")) +
   geom_text(aes(label = trunc(median), vjust = -0.3)) +
   geom_label(aes(label = trunc(pct*100), vjust = 1.2)) +
   ylim(0, 30) +
@@ -114,8 +121,10 @@ ws1 <- ggplot(tibble3, aes(x = Pk2, y = mean)) +
        x = "Segment", 
        y = "Average Career Win Shares",
        caption = "regular season games only") + 
-  scale_x_discrete(limits = c("1-5", "6-10", "11-15", "16-20", "21-25", "26-30"),
-                   labels = c("1-5", "6-10", "11-15", "16-20", "21-25", "26-30")) +
+  scale_x_discrete(limits = c("1-5", "6-10", "11-15", 
+                              "16-20", "21-25", "26-30"),
+                   labels = c("1-5", "6-10", "11-15", 
+                              "16-20", "21-25", "26-30")) +
   geom_text(aes(label = trunc(mean), vjust = -0.3)) +
   geom_label(aes(label = trunc(pct*100), vjust = 1.2)) +
   ylim(0, 60) +
@@ -127,8 +136,10 @@ ws2 <- ggplot(tibble3, aes(x = Pk2, y = median)) +
        subtitle = "First-Round Selections between 2000 and 2009 NBA Drafts", 
        x = "Segment", y = "Median Career Win Shares",
        caption = "regular season games only") + 
-  scale_x_discrete(limits = c("1-5", "6-10", "11-15", "16-20", "21-25", "26-30"),
-                   labels = c("1-5", "6-10", "11-15", "16-20", "21-25", "26-30")) +
+  scale_x_discrete(limits = c("1-5", "6-10", "11-15", 
+                              "16-20", "21-25", "26-30"),
+                   labels = c("1-5", "6-10", "11-15", 
+                              "16-20", "21-25", "26-30")) +
   geom_text(aes(label = trunc(median), vjust = -0.3)) +
   geom_label(aes(label = trunc(pct*100), vjust = 1.2)) +
   ylim(0, 70) +
@@ -151,8 +162,10 @@ ws3 <- ggplot(tibble4, aes(x = Pk2, y = mean)) +
        x = "Segment", 
        y = "Average Win Shares per 48 Minutes",
        caption = "regular season games only") + 
-  scale_x_discrete(limits = c("1-5", "6-10", "11-15", "16-20", "21-25", "26-30"),
-                   labels = c("1-5", "6-10", "11-15", "16-20", "21-25", "26-30")) +
+  scale_x_discrete(limits = c("1-5", "6-10", "11-15", 
+                              "16-20", "21-25", "26-30"),
+                   labels = c("1-5", "6-10", "11-15",
+                              "16-20", "21-25", "26-30")) +
   geom_text(aes(label = round(mean, 2), vjust = -0.3)) +
   geom_label(aes(label = trunc(pct*100), vjust = 1.2)) +
   ylim(0, 0.13) +
@@ -164,8 +177,10 @@ ws4 <- ggplot(tibble4, aes(x = Pk2, y = median)) +
        subtitle = "First-Round Selections between 2000 and 2009 NBA Drafts", 
        x = "Segment", y = "Median Win Shares per 48 Minutes",
        caption = "regular season games only") + 
-  scale_x_discrete(limits = c("1-5", "6-10", "11-15", "16-20", "21-25", "26-30"),
-                   labels = c("1-5", "6-10", "11-15", "16-20", "21-25", "26-30")) +
+  scale_x_discrete(limits = c("1-5", "6-10", "11-15", 
+                              "16-20", "21-25", "26-30"),
+                   labels = c("1-5", "6-10", "11-15", 
+                              "16-20", "21-25", "26-30")) +
   geom_text(aes(label = round(median, 2), vjust = -0.3)) +
   geom_label(aes(label = trunc(pct*100), vjust = 1.2)) +
   ylim(0, 0.13) +
@@ -173,23 +188,8 @@ ws4 <- ggplot(tibble4, aes(x = Pk2, y = median)) +
 
 ws3 + ws4 + plot_layout(ncol = 1)
 
-Figure 3.4 Mean and median win shares for every 48 minutes played by first-round segment.
-Because win shares for every 48 minutes of playing time is scaled significantly lower than our other measures, the variances between the top and bottom segments might appear less pronounced, but in fact they are quite similar to our previous results; to summarize:
-  	Players in the 1-5 segment accrued almost 20% more win shares for every 48 minutes of playing time than players in the 6-10 segment and nearly 40% more than players in the other segments.
-	Which is to also say that there’s more than a 20% difference in win shares for every 48 minutes of playing time between the 6-10 segment and the remaining four segments.
-	As with the other measures, there is clear and obvious separation between the 1-5 and 6-10 segments, and further separation between the 6-10 segment and remaining segments.
-	Performance and productivity is otherwise random across the 11-15 through 26-30 segments. 
-Now that we’ve computed and visualized means and medians of the most significant draft2 variables–and in the process showed clear separation between the top of the draft and the rest of the first round–we should next document our most important takeaways thus far.
-3.6	Preliminary conclusions
-So, what have we established so far? What are the implications? And what have we not established?
-  	Regardless of the measure, there is clear and obvious separation in performance and productivity between those players picked within the 1-5 segment versus those picked in the 6-10 segment; and there is further separation between the 6-10 segment and those players then picked in the 11-15 segment. 
-	There are virtually no performance or productivity differences from the 11-15 segment through the rest of the first round, regardless of measure.
-	Thus, there’s a definite incentive for teams to somehow get to the top, or very close to the top, of the draft board; teams are clearly best off selecting at or near the top of the draft if they want–or need–a potential superstar. 
-	But how to get there? Trading up is almost impossible, because that of course would require another team to trade down. So long as the NBA rewards losing teams with high draft picks teams will–and should–tank. Which of course compromises the integrity of play.
-	Finally, we need to avoid sweeping conclusions that are above and beyond what we’re analyzing. Teams tanked in the 1970s, too; they presumably did so because they wanted to increase their chances of selecting a potential superstar. But we can’t rationalize that. We can only say that tanking makes sense based off an analysis of the 2000 to 2009 NBA drafts and the subsequent professional careers of those players who were selected in the first round in those drafts. Don’t ever apply results to circumstances beyond the bounds of your testing and analysis. 
-With that being said, bear in mind, of the players in the draft2 data set with 100-plus career win shares, all but two were top-five picks when they entered the NBA draft; only Tony Parker, selected twenty-eighth overall by San Antonio in 2001, and Stephen Curry, drafted by Golden State in 2009 as the seventh overall selection, were drafted outside the top five and have more than 100 career win shares. NBA champions, more often than not, have a minimum of two top-five picks on their rosters (only two league champions since 2000 had but one top-five pick and no championship-winning team since then had zero); yet, top-five picks are not necessarily guaranteed to win a championship. Of the 50 top-five picks in our data set, only 11 have since won a league championship.
-3.7	Sankey Diagram
-mutate(Age2 = trunc(Age)) -> draft2
+draft2 %>%
+  mutate(Age2 = trunc(Age)) -> draft2
 
 draft2 %>%
   mutate(draft2, WS2 = trunc(WS)) %>%
