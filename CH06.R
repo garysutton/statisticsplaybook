@@ -2,28 +2,33 @@ library(tidyverse)
 library(sqldf)
 library(patchwork)
 
-nba1819 <- read.csv('/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/nba_boxscore_1819.csv')
-nba1920 <- read.csv('/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/nba_boxscore_1920.csv')
+nba1819 <- read.csv("/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/nba_boxscore_1819.csv")
+nba1920 <- read.csv("/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/nba_boxscore_1920.csv")
 
 dim(nba1819) 
 dim(nba1920) 
 
-nba1819 <- filter(nba1819, DATASET == "NBA 2018-2019 Regular Season" & MIN == 240)
+nba1819 %>%
+  filter(DATASET == "NBA 2018-2019 Regular Season" & MIN == 240) -> nba1819
 dim(nba1819) 
 
-nba1920 <- filter(nba1920, GAME_ID <= 21900973 & MIN == 240)
+nba1920 %>%
+  filter(GAME_ID <= 21900973 & MIN == 240) -> nba1920
 dim(nba1920) 
 
 nbadf1 <- rbind(nba1819, nba1920)
 dim(nbadf1)
 
-nbadf1 <- select(nbadf1, DATASET:MIN)
+nbadf1 %>%
+  select(DATASET:MIN) -> nbadf1
 dim(nbadf1) 
 
-road <- filter(nbadf1, VENUE == "R")
+nbadf1 %>%
+  filter(VENUE == "R") -> road
 dim(road) 
 
-home <- filter(nbadf1, VENUE == "H")
+nbadf1 %>%
+  filter(VENUE == "H") -> home
 dim(home) 
 
 road %>%
@@ -38,7 +43,8 @@ home %>%
 left_join(road, home, by = c("dataset", "ID", "date")) -> nbadf2 
 dim(nbadf2)
 
-nbadf2 <- select(nbadf2,-c(OT1R:OT5R, MINR, OT1H:OT5H, MINH))
+nbadf2 %>% 
+  select(-c(OT1R:OT5R, MINR, OT1H:OT5H, MINH)) -> nbadf2
 dim(nbadf2) 
 
 nbadf2$dataset <- as.factor(nbadf2$dataset)
@@ -49,7 +55,8 @@ nbadf2$venueH <- as.factor(nbadf2$venueH)
 
 glimpse(nbadf2)
 
-nbadf3 <- filter(nbadf2, Q1R != Q1H) 
+nbadf2 %>%
+  filter(Q1R != Q1H) -> nbadf3
 dim(nbadf3)
 
 nbadf3 %>% mutate(Q1vF = case_when(Q1H > Q1R & FH > FR ~ "HH",
@@ -97,7 +104,8 @@ plot1a <- ggplot(tbl1, aes(x = reorder(Q1vF, -n), y = n)) +
        caption = "\n2018-19 and 2019-20 regular season games that ended in regulation\n2020 'bubble' games excluded",
        x = "Win Combinations between First Quarter and End of Game", 
        y = "Wins") + 
-  geom_text(aes(x = Q1vF, y = n, label = n, vjust = -0.3, fontface = "bold")) +
+  geom_text(aes(x = Q1vF, y = n, label = n, vjust = -0.3, 
+                fontface = "bold")) +
   theme(plot.title = element_text(face = "bold")) 
 
 plot1b <- ggplot(tbl1, aes(x = reorder(Q1vF, -pct_total), y = pct_total)) + 
@@ -109,12 +117,14 @@ plot1b <- ggplot(tbl1, aes(x = reorder(Q1vF, -pct_total), y = pct_total)) +
        caption = "\n2018-19 and 2019-20 regular season games that ended in regulation\n2020 'bubble' games excluded",
        x = "Win Combinations between First Quarter and End of Game", 
        y = "Winning Percentage") + 
-  geom_text(aes(x = Q1vF, y = pct_total, label = pct_total, vjust = -0.3, fontface = "bold")) +
+  geom_text(aes(x = Q1vF, y = pct_total, label = pct_total, 
+                vjust = -0.3, fontface = "bold")) +
   theme(plot.title = element_text(face = "bold")) 
 
 plot1a + plot1b + plot_layout(ncol = 2)
 
-nbadf4 <- filter(nbadf3, Q2R != Q2H)
+nbadf3 %>% 
+  filter(Q2R != Q2H) -> nbadf4
 
 nbadf4 %>% mutate(Q2vF = case_when(Q2H > Q2R & FH > FR ~ "HH",
                                    Q2R > Q2H & FR > FH ~ "RR",
@@ -122,6 +132,7 @@ nbadf4 %>% mutate(Q2vF = case_when(Q2H > Q2R & FH > FR ~ "HH",
                                    Q2R > Q2H & FH > FR ~ "RH")) -> nbadf4
 
 nbadf4$Q2vF <- factor(nbadf4$Q2vF)
+
 count(nbadf4, Q2vF) %>% arrange(desc(n)) -> tbl2
 tbl2 %>% 
   mutate(pct_total = n/nrow(nbadf4)*100) %>%
@@ -140,7 +151,8 @@ plot2a <- ggplot(tbl2, aes(x = reorder(Q2vF, -n), y = n)) +
        caption = "\n2018-19 and 2019-20 regular season games that ended in regulation\n2020 'bubble' games excluded",
        x = "Win Combinations between Second Quarter and End of Game", 
        y = "Wins") + 
-  geom_text(aes(x = Q2vF, y = n, label = n, vjust = -0.3, fontface = "bold")) +
+  geom_text(aes(x = Q2vF, y = n, label = n,
+                vjust = -0.3, fontface = "bold")) +
   theme(plot.title = element_text(face = "bold")) 
 
 plot2b <- ggplot(tbl2, aes(x = reorder(Q2vF, -pct_total), y = pct_total)) + 
@@ -152,12 +164,14 @@ plot2b <- ggplot(tbl2, aes(x = reorder(Q2vF, -pct_total), y = pct_total)) +
        caption = "\n2018-19 and 2019-20 regular season games that ended in regulation\n2020 'bubble' games excluded",
        x = "Win Combinations between Second Quarter and End of Game", 
        y = "Winning Percentage") + 
-  geom_text(aes(x = Q2vF, y = pct_total, label = pct_total, vjust = -0.3, fontface = "bold")) +
+  geom_text(aes(x = Q2vF, y = pct_total, label = pct_total, 
+                vjust = -0.3, fontface = "bold")) +
   theme(plot.title = element_text(face = "bold")) 
 
 plot2a + plot2b + plot_layout(ncol = 2)
 
-nbadf5 <- filter(nbadf2, Q3R != Q3H)
+nbadf2 %>%
+  filter(Q3R != Q3H) -> nbadf5
 
 nbadf5 %>% mutate(Q3vF = case_when(Q3H > Q3R & FH > FR ~ "HH",
                                    Q3R > Q3H & FR > FH ~ "RR",
@@ -184,7 +198,8 @@ plot3a <- ggplot(tbl3, aes(x = reorder(Q3vF, -n), y = n)) +
        caption = "\n2018-19 and 2019-20 regular season games that ended in regulation\n2020 'bubble' games excluded",
        x = "Win Combinations between Third Quarter and End of Game", 
        y = "Wins") + 
-  geom_text(aes(x = Q3vF, y = n, label = n, vjust = -0.3, fontface = "bold")) +
+  geom_text(aes(x = Q3vF, y = n, label = n, 
+                vjust = -0.3, fontface = "bold")) +
   theme(plot.title = element_text(face = "bold")) 
 
 plot3b <- ggplot(tbl3, aes(x = reorder(Q3vF, -pct_total), y = pct_total)) + 
@@ -196,12 +211,14 @@ plot3b <- ggplot(tbl3, aes(x = reorder(Q3vF, -pct_total), y = pct_total)) +
        caption = "\n2018-19 and 2019-20 regular season games that ended in regulation\n2020 'bubble' games excluded",
        x = "Win Combinations between Third Quarter and End of Game", 
        y = "Winning Percentage") + 
-  geom_text(aes(x = Q3vF, y = pct_total, label = pct_total, vjust = -0.3, fontface = "bold")) +
+  geom_text(aes(x = Q3vF, y = pct_total, label = pct_total, 
+                vjust = -0.3, fontface = "bold")) +
   theme(plot.title = element_text(face = "bold")) 
 
 plot3a + plot3b + plot_layout(ncol = 2)
 
-nbadf6 <- filter(nbadf2, Q4R != Q4H)
+nbadf2 %>%
+  filter(Q4R != Q4H) -> nbadf6
 
 nbadf6 %>% mutate(Q4vF = case_when(Q4H > Q4R & FH > FR ~ "HH",
                                    Q4R > Q4H & FR > FH ~ "RR",
@@ -228,7 +245,8 @@ plot4a <- ggplot(tbl4, aes(x = reorder(Q4vF, -n), y = n)) +
        caption = "\n2018-19 and 2019-20 regular season games that ended in regulation\n2020 'bubble' games excluded",
        x = "Win Combinations between Fourth Quarter and End of Game", 
        y = "Wins") + 
-  geom_text(aes(x = Q4vF, y = n, label = n, vjust = -0.3, fontface = "bold")) +
+  geom_text(aes(x = Q4vF, y = n, label = n,
+                vjust = -0.3, fontface = "bold")) +
   theme(plot.title = element_text(face = "bold")) 
 
 plot4b <- ggplot(tbl4, aes(x = reorder(Q4vF, -pct_total), y = pct_total)) + 
@@ -240,14 +258,17 @@ plot4b <- ggplot(tbl4, aes(x = reorder(Q4vF, -pct_total), y = pct_total)) +
        caption = "\n2018-19 and 2019-20 regular season games that ended in regulation\n2020 'bubble' games excluded",
        x = "Win Combinations between Fourth Quarter and End of Game", 
        y = "Winning Percentage") + 
-  geom_text(aes(x = Q4vF, y = pct_total, label = pct_total, vjust = -0.3, fontface = "bold")) +
+  geom_text(aes(x = Q4vF, y = pct_total, label = pct_total, 
+                vjust = -0.3, fontface = "bold")) +
   theme(plot.title = element_text(face = "bold")) 
 
 plot4a + plot4b + plot_layout(ncol = 2)
 
-nbadf7 <- filter(nbadf3, teamR == "Milwaukee" | teamR == "Toronto" | teamR == "Boston" | teamR == "Denver" | teamR == "Houston" | teamR == "LA Clippers")
+nbadf3 %>% 
+  filter(teamR == "Milwaukee" | teamR == "Toronto" | teamR == "Boston" | teamR == "Denver" | teamR == "Houston" | teamR == "LA Clippers") -> nbadf7
 
-nbadf8 <- filter(nbadf7, Q1vF == "RR" | Q1vF == "RH")
+nbadf7 %>%
+  filter(Q1vF == "RR" | Q1vF == "RH") -> nbadf8
 
 count(nbadf8, Q1vF) %>% arrange(desc(Q1vF)) -> tbl5
 tbl5 %>% 
@@ -255,18 +276,23 @@ tbl5 %>%
 tbl5$pct_total <- round(tbl5$pct_total, digits = 2)
 print(tbl5)
 
-nbadf9 <- filter(nbadf4, teamR == "Milwaukee" | teamR == "Toronto" | teamR == "Boston" | teamR == "Denver" | teamR == "Houston" | teamR == "LA Clippers") 
+nbadf4 %>% 
+  filter(teamR == "Milwaukee" | teamR == "Toronto" | teamR == "Boston" | teamR == "Denver" | teamR == "Houston" | teamR == "LA Clippers") -> nbadf9
 
-nbadf10 <- filter(nbadf9, Q2vF == "RR" | Q2vF == "RH")
+nbadf9 %>%
+  filter(Q2vF == "RR" | Q2vF == "RH") -> nbadf10
 
 count(nbadf10, Q2vF) %>% arrange(desc(Q2vF)) -> tbl6
 tbl6 %>% 
   mutate(pct_total = n/nrow(nbadf10)*100) -> tbl6
 tbl6$pct_total <- round(tbl6$pct_total, digits = 2)
 print(tbl6)
-nbadf11 <- filter(nbadf5, teamR == "Milwaukee" | teamR == "Toronto" | teamR == "Boston" | teamR == "Denver" | teamR == "Houston" | teamR == "LA Clippers")
 
-nbadf12 <- filter(nbadf11, Q3vF == "RR" | Q3vF == "RH")
+nbadf5 %>%
+  filter(teamR == "Milwaukee" | teamR == "Toronto" | teamR == "Boston" | teamR == "Denver" | teamR == "Houston" | teamR == "LA Clippers") -> nbadf11
+
+nbadf11 %>% 
+  filter(Q3vF == "RR" | Q3vF == "RH") -> nbadf12
 
 count(nbadf12, Q3vF) %>% arrange(desc(Q3vF)) -> tbl7
 tbl7 %>% 
@@ -274,9 +300,11 @@ tbl7 %>%
 tbl7$pct_total <- round(tbl7$pct_total, digits = 2)
 print(tbl7)
 
-nbadf13 <- filter(nbadf6, teamR == "Milwaukee" | teamR == "Toronto" | teamR == "Boston" | teamR == "Denver" | teamR == "Houston" | teamR == "LA Clippers")
+nbadf6 %>% 
+  filter(teamR == "Milwaukee" | teamR == "Toronto" | teamR == "Boston" | teamR == "Denver" | teamR == "Houston" | teamR == "LA Clippers") -> nbadf13
 
-nbadf14 <- filter(nbadf13, Q4vF == "RR" | Q4vF == "RH")
+nbadf13 %>%
+  filter(Q4vF == "RR" | Q4vF == "RH") -> nbadf14
 
 count(nbadf14, Q4vF) %>% arrange(desc(Q4vF)) -> tbl8
 tbl8 %>% 
@@ -292,16 +320,20 @@ plot5 <- ggplot(df1, aes(x = quarter, y = win_pct)) +
   geom_bar(color = c("gray74", "gray74", "skyblue", "gray74"),
            fill = c("gray74", "gray74", "skyblue", "gray74"), 
            stat = "identity") + 
-  labs(title = "Top 6 Teams on the Road", subtitle = "Winning Percentages when Winning each Quarter",
+  labs(title = "Top 6 Teams on the Road", 
+       subtitle = "Winning Percentages when Winning each Quarter",
        caption = "\n2018-19 and 2019-20 regular season games that ended in regulation\n2020 'bubble' games excluded",
        x = "Quarter", 
        y = "Winning Percentage") + 
-  geom_text(aes(x = quarter, y = win_pct, label = win_pct, vjust = -0.3, fontface = "bold")) +
+  geom_text(aes(x = quarter, y = win_pct, label = win_pct, 
+                vjust = -0.3, fontface = "bold")) +
   theme(plot.title = element_text(face = "bold")) 
 
-nbadf15 <- filter(nbadf3, teamH == "Milwaukee" | teamH == "Toronto" | teamH == "Boston" | teamH == "Denver" | teamH == "Houston" | teamH == "LA Clippers")
+nbadf3 %>%
+  filter(teamH == "Milwaukee" | teamH == "Toronto" | teamH == "Boston" | teamH == "Denver" | teamH == "Houston" | teamH == "LA Clippers") -> nbadf15
 
-nbadf16 <- filter(nbadf15, Q1vF == "HR" | Q1vF == "HH")
+nbadf15 %>%
+  filter(Q1vF == "HR" | Q1vF == "HH") -> nbadf16
 
 count(nbadf16, Q1vF) %>% arrange(Q1vF) -> tbl9
 tbl9 %>% 
@@ -309,9 +341,11 @@ tbl9 %>%
 tbl9$pct_total <- round(tbl9$pct_total, digits = 2)
 print(tbl9)
 
-nbadf17 <- filter(nbadf4, teamH == "Milwaukee" | teamH == "Toronto" | teamH == "Boston" | teamH == "Denver" | teamH == "Houston" | teamH == "LA Clippers")
+nbadf4 %>% 
+  filter(teamH == "Milwaukee" | teamH == "Toronto" | teamH == "Boston" | teamH == "Denver" | teamH == "Houston" | teamH == "LA Clippers") -> nbadf17
 
-nbadf18 <- filter(nbadf17, Q2vF == "HR" | Q2vF == "HH")
+nbadf17 %>% 
+  filter(Q2vF == "HR" | Q2vF == "HH") -> nbadf18
 
 count(nbadf18, Q2vF) %>% arrange(Q2vF) -> tbl10
 tbl10 %>% 
@@ -319,9 +353,11 @@ tbl10 %>%
 tbl10$pct_total <- round(tbl10$pct_total, digits = 2)
 print(tbl10)
 
-nbadf19 <- filter(nbadf5, teamH == "Milwaukee" | teamH == "Toronto" | teamH == "Boston" | teamH == "Denver" | teamH == "Houston" | teamH == "LA Clippers")
+nbadf5 %>% 
+  filter(teamH == "Milwaukee" | teamH == "Toronto" | teamH == "Boston" | teamH == "Denver" | teamH == "Houston" | teamH == "LA Clippers") -> nbadf19
 
-nbadf20 <- filter(nbadf19, Q3vF == "HR" | Q3vF == "HH")
+nbadf19 %>% 
+  filter(Q3vF == "HR" | Q3vF == "HH") -> nbadf20
 
 count(nbadf20, Q3vF) %>% arrange(Q3vF) -> tbl11
 tbl11 %>% 
@@ -329,9 +365,11 @@ tbl11 %>%
 tbl11$pct_total <- round(tbl11$pct_total, digits = 2)
 print(tbl11)
 
-nbadf21 <- filter(nbadf6, teamH == "Milwaukee" | teamH == "Toronto" | teamH == "Boston" | teamH == "Denver" | teamH == "Houston" | teamH == "LA Clippers")
+nbadf6 %>% 
+  filter(teamH == "Milwaukee" | teamH == "Toronto" | teamH == "Boston" | teamH == "Denver" | teamH == "Houston" | teamH == "LA Clippers") -> nbadf21
 
-nbadf22 <- filter(nbadf21, Q4vF == "HR" | Q4vF == "HH")
+nbadf21 %>% 
+  filter(Q4vF == "HR" | Q4vF == "HH") -> nbadf22
 
 count(nbadf22, Q4vF) %>% arrange(Q4vF) -> tbl12
 tbl12 %>% 
@@ -352,14 +390,17 @@ plot6 <- ggplot(df2, aes(x = quarter, y = win_pct)) +
        caption = "\n2018-19 and 2019-20 regular season games that ended in regulation\n2020 'bubble' games excluded",
        x = "Quarter", 
        y = "Winning Percentage") + 
-  geom_text(aes(x = quarter, y = win_pct, label = win_pct, vjust = -0.3, fontface = "bold")) +
+  geom_text(aes(x = quarter, y = win_pct, label = win_pct, 
+                vjust = -0.3, fontface = "bold")) +
   theme(plot.title = element_text(face = "bold")) 
 
 plot5 + plot6 + plot_layout(ncol = 2)
 
-nbadf23 <- filter(nbadf3, teamR == "Minnesota" | teamR == "Phoenix" | teamR == "Atlanta" | teamR == "Chicago" | teamR == "Cleveland" | teamR == "New York")
+nbadf3 %>%
+  filter(teamR == "Minnesota" | teamR == "Phoenix" | teamR == "Atlanta" | teamR == "Chicago" | teamR == "Cleveland" | teamR == "New York") -> nbadf23
 
-nbadf24 <- filter(nbadf23, Q1vF == "RR" | Q1vF == "RH")
+nbadf23 %>%
+  filter(Q1vF == "RR" | Q1vF == "RH") -> nbadf24
 
 count(nbadf24, Q1vF) %>% arrange(desc(Q1vF)) -> tbl13
 tbl13 %>% 
@@ -367,9 +408,11 @@ tbl13 %>%
 tbl13$pct_total <- round(tbl13$pct_total, digits = 2)
 print(tbl13)
 
-nbadf25 <- filter(nbadf4, teamR == "Minnesota" | teamR == "Phoenix" | teamR == "Atlanta" | teamR == "Chicago" | teamR == "Cleveland" | teamR == "New York")
+nbadf4 %>% 
+  filter(teamR == "Minnesota" | teamR == "Phoenix" | teamR == "Atlanta" | teamR == "Chicago" | teamR == "Cleveland" | teamR == "New York") -> nbadf25
 
-nbadf26 <- filter(nbadf25, Q2vF == "RR" | Q2vF == "RH")
+nbadf25 %>%
+  filter(Q2vF == "RR" | Q2vF == "RH") -> nbadf26
 
 count(nbadf26, Q2vF) %>% arrange(desc(Q2vF)) -> tbl14
 tbl14 %>% 
@@ -377,9 +420,11 @@ tbl14 %>%
 tbl14$pct_total <- round(tbl14$pct_total, digits = 2)
 print(tbl14)
 
-nbadf27 <- filter(nbadf5, teamR == "Minnesota" | teamR == "Phoenix" | teamR == "Atlanta" | teamR == "Chicago" | teamR == "Cleveland" | teamR == "New York")
+nbadf5 %>%
+  filter(teamR == "Minnesota" | teamR == "Phoenix" | teamR == "Atlanta" | teamR == "Chicago" | teamR == "Cleveland" | teamR == "New York") -> nbadf27
 
-nbadf28 <- filter(nbadf27, Q3vF == "RR" | Q3vF == "RH")
+nbadf27 %>%
+  filter(Q3vF == "RR" | Q3vF == "RH") -> nbadf28
 
 count(nbadf28, Q3vF) %>% arrange(desc(Q3vF)) -> tbl15
 tbl15 %>% 
@@ -387,9 +432,11 @@ tbl15 %>%
 tbl15$pct_total <- round(tbl15$pct_total, digits = 2)
 print(tbl15)
 
-nbadf29 <- filter(nbadf6, teamR == "Minnesota" | teamR == "Phoenix" | teamR == "Atlanta" | teamR == "Chicago" | teamR == "Cleveland" | teamR == "New York")
+nbadf6 %>% 
+  filter(teamR == "Minnesota" | teamR == "Phoenix" | teamR == "Atlanta" | teamR == "Chicago" | teamR == "Cleveland" | teamR == "New York") -> nbadf29
 
-nbadf30 <- filter(nbadf29, Q4vF == "RR" | Q4vF == "RH")
+nbadf29 %>%
+  filter(Q4vF == "RR" | Q4vF == "RH") -> nbadf30
 
 count(nbadf30, Q4vF) %>% arrange(desc(Q4vF)) -> tbl16
 tbl16 %>% 
@@ -410,12 +457,15 @@ plot7 <- ggplot(df3, aes(x = quarter, y = win_pct)) +
        caption = "\n2018-19 and 2019-20 regular season games that ended in regulation\n2020 'bubble' games excluded",
        x = "Quarter", 
        y = "Winning Percentage") + 
-  geom_text(aes(x = quarter, y = win_pct, label = win_pct, vjust = -0.3, fontface = "bold")) +
+  geom_text(aes(x = quarter, y = win_pct, label = win_pct, 
+                vjust = -0.3, fontface = "bold")) +
   theme(plot.title = element_text(face = "bold")) 
 
-nbadf31 <- subset(nbadf3, teamH == "Minnesota" | teamH == "Phoenix" | teamH == "Atlanta" | teamH == "Chicago" | teamH == "Cleveland" | teamH == "New York")
+nbadf3 %>% 
+  filter(teamH == "Minnesota" | teamH == "Phoenix" | teamH == "Atlanta" | teamH == "Chicago" | teamH == "Cleveland" | teamH == "New York") -> nbadf31
 
-nbadf32 <- filter(nbadf31, Q1vF == "HR" | Q1vF == "HH")
+nbadf31 %>%
+  filter(Q1vF == "HR" | Q1vF == "HH") -> nbadf32
 
 count(nbadf32, Q1vF) %>% arrange(Q1vF) -> tbl17
 tbl17 %>% 
@@ -423,9 +473,11 @@ tbl17 %>%
 tbl17$pct_total <- round(tbl17$pct_total, digits = 2)
 print(tbl17)
 
-nbadf33 <- filter(nbadf4, teamH == "Minnesota" | teamH == "Phoenix" | teamH == "Atlanta" | teamH == "Chicago" | teamH == "Cleveland" | teamH == "New York")
+nbadf4 %>%
+  filter(teamH == "Minnesota" | teamH == "Phoenix" | teamH == "Atlanta" | teamH == "Chicago" | teamH == "Cleveland" | teamH == "New York") -> nbadf33
 
-nbadf34 <- filter(nbadf33, Q2vF == "HR" | Q2vF == "HH")
+nbadf33 %>% 
+  filter(Q2vF == "HR" | Q2vF == "HH") -> nbadf34
 
 count(nbadf34, Q2vF) %>% arrange(Q2vF) -> tbl18
 tbl18 %>% 
@@ -433,9 +485,11 @@ tbl18 %>%
 tbl18$pct_total <- round(tbl18$pct_total, digits = 2)
 print(tbl18)
 
-nbadf35 <- filter(nbadf5, teamH == "Minnesota" | teamH == "Phoenix" | teamH == "Atlanta" | teamH == "Chicago" | teamH == "Cleveland" | teamH == "New York")
+nbadf5 %>% 
+  filter(teamH == "Minnesota" | teamH == "Phoenix" | teamH == "Atlanta" | teamH == "Chicago" | teamH == "Cleveland" | teamH == "New York") -> nbadf35
 
-nbadf36 <- filter(nbadf35, Q3vF == "HR" | Q3vF == "HH")
+nbadf35 %>%
+  filter(Q3vF == "HR" | Q3vF == "HH") -> nbadf36
 
 count(nbadf36, Q3vF) %>% arrange(Q3vF) -> tbl19
 tbl19 %>% 
@@ -443,9 +497,11 @@ tbl19 %>%
 tbl19$pct_total <- round(tbl19$pct_total, digits = 2)
 print(tbl19)
 
-nbadf37 <- filter(nbadf6, teamH == "Minnesota" | teamH == "Phoenix" | teamH == "Atlanta" | teamH == "Chicago" | teamH == "Cleveland" | teamH == "New York")
+nbadf6 %>%
+  filter(teamH == "Minnesota" | teamH == "Phoenix" | teamH == "Atlanta" | teamH == "Chicago" | teamH == "Cleveland" | teamH == "New York") -> nbadf37
 
-nbadf38 <- filter(nbadf37, Q4vF == "HR" | Q4vF == "HH")
+nbadf37 %>%
+  filter(Q4vF == "HR" | Q4vF == "HH") -> nbadf38
 
 count(nbadf38, Q4vF) %>% arrange(Q4vF) -> tbl20
 tbl20 %>% 
@@ -466,13 +522,16 @@ plot8 <- ggplot(df4, aes(x = quarter, y = win_pct)) +
        caption = "\n2018-19 and 2019-20 regular season games that ended in regulation\n2020 'bubble' games excluded",
        x = "Quarter", 
        y = "Winning Percentage") + 
-  geom_text(aes(x = quarter, y = win_pct, label = win_pct, vjust = -0.3, fontface = "bold")) +
+  geom_text(aes(x = quarter, y = win_pct, label = win_pct, 
+                vjust = -0.3, fontface = "bold")) +
   theme(plot.title = element_text(face = "bold")) 
 
 plot7 + plot8 + plot_layout(ncol = 2)
 
-nbadf39 <- filter(nbadf2, Q1R + Q2R == Q1H + Q2H)
-nbadf39 <- filter(nbadf39, Q3R != Q3H & Q4R != Q4H)
+nbadf2 %>%
+  filter(Q1R + Q2R == Q1H + Q2H) -> nbadf39
+nbadf39 %>% 
+  filter(Q3R != Q3H & Q4R != Q4H) -> nbadf39
 dim(nbadf39)
 
 nbadf39 %>%
@@ -495,6 +554,9 @@ tbl21$RRR <- as.numeric(tbl21$RRR)
 tbl21$RHR <- as.numeric(tbl21$RHR)
 tbl21$HRR <- as.numeric(tbl21$HRR)
 
+tbl21 %>% 
+  select(HHH:HRR) -> tbl21
+
 tbl21[6, 1] = 18
 tbl21[5, 2] = 8
 tbl21[4, 3] = 8
@@ -508,5 +570,6 @@ tbl21 %>%
                values_to = 'count') -> tbl21
 head(tbl21)
 
-tbl21 <- filter(tbl21, count > 0)
+tbl21 %>% 
+  filter(count > 0)
 print(tbl21)
