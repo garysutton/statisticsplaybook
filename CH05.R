@@ -5,7 +5,7 @@ library(broom)
 library(tree)
 library(patchwork)
 
-hustle <- read_csv('/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/hustle.csv')
+hustle <- read_csv("/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/hustle.csv")
 
 glimpse(hustle)
 
@@ -209,7 +209,8 @@ dp4 <- ggplot(hustle, aes(x = screen_assists_pts)) +
   geom_density(alpha = .3, fill = "dodgerblue4") +
   labs(title = "Points off Screens",
        subtitle = "Shapiro-Wilk test of normality: p-value = 0.06",
-       x = "", y = "Density") +
+       x = "", 
+       y = "Density") +
   theme(plot.title = element_text(face = "bold")) 
 
 shapiro.test(hustle$loose_balls)
@@ -217,7 +218,8 @@ dp5 <- ggplot(hustle, aes(x = loose_balls)) +
   geom_density(alpha = .3, fill = "dodgerblue4") +
   labs(title = "Loose Balls Recovered",
        subtitle = "Shapiro-Wilk test of normality: p-value = 0.21",
-       x = "", y = "Density") +
+       x = "", 
+       y = "Density") +
   theme(plot.title = element_text(face = "bold")) 
 
 shapiro.test(hustle$charges)
@@ -225,7 +227,8 @@ dp6 <- ggplot(hustle, aes(x = charges)) +
   geom_density(alpha = .3, fill = "dodgerblue4") +
   labs(title = "Charges Drawn",
        subtitle = "Shapiro-Wilk test of normality: p-value = 0.00",
-       x = "", y = "Density") +
+       x = "", 
+       y = "Density") +
   theme(plot.title = element_text(face = "bold")) +
   theme(panel.background = element_rect(color = "red", size = 2))
 
@@ -234,7 +237,8 @@ dp7 <- ggplot(hustle, aes(x = contested_2pt)) +
   geom_density(alpha = .3, fill = "dodgerblue4") +
   labs(title = "Contested 2pt Shots",
        subtitle = "Shapiro-Wilk test of normality: p-value = 0.10",
-       x = "", y = "Density") +
+       x = "", 
+       y = "Density") +
   theme(plot.title = element_text(face = "bold")) 
 
 shapiro.test(hustle$contested_3pt)
@@ -242,7 +246,8 @@ dp8 <- ggplot(hustle, aes(x = contested_3pt)) +
   geom_density(alpha = .3, fill = "dodgerblue4") +
   labs(title = "Contested 3pt Shots",
        subtitle = "Shapiro-Wilk test of normality: p-value = 0.29",
-       x = "", y = "Density") +
+       x = "", 
+       y = "Density") +
   theme(plot.title = element_text(face = "bold")) 
 
 shapiro.test(hustle$contested_shots)
@@ -250,7 +255,8 @@ dp9 <- ggplot(hustle, aes(x = contested_shots)) +
   geom_density(alpha = .3, fill = "dodgerblue4") +
   labs(title = "Contested 2pt Shots",
        subtitle = "Shapiro-Wilk test of normality: p-value = 0.21",
-       x = "", y = "Density") +
+       x = "", 
+       y = "Density") +
   theme(plot.title = element_text(face = "bold")) 
 
 dp2 + dp3 + dp4 + dp5 + plot_layout(ncol = 2)
