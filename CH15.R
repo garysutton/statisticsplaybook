@@ -13,14 +13,16 @@ ggplot(df, aes(x = years)) +
        caption = "one-to-one relationship between franchises and team names") +
   theme(plot.title = element_text(face = "bold")) 
 
-library(tidyverse) # but see above
+###########################################################
+
+library(tidyverse) 
 library(patchwork)
 library(car)
 library(ggpubr)
 library(ggQC)
 library(qcc)
 
-df1 <- read_csv('/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/nba_lindy.csv') # but see above
+df1 <- read_csv("/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/nba_lindy.csv") 
 
 glimpse(df1)
 
@@ -30,8 +32,8 @@ df1$active_inactive <- as.factor(df1$active_inactive)
 
 summary(df1)
 
-df2 <- filter(df1, parent_child != "parent")
-
+df1 %>%
+  filter(parent_child != "parent") -> df2
 dim(df2)
 
 p2 <- ggviolin(df2, y = "games",
@@ -39,7 +41,9 @@ p2 <- ggviolin(df2, y = "games",
                add = "boxplot", add.params = list(fill = "white"),
                main = "Distribution of Games Played:\nAll Current and Past NBA Franchises",
                font.main = "bold",
-               subtitle = "1946-2020", xlab = "", ylab = "Games Played") +
+               subtitle = "1946-2020", 
+               xlab = "", 
+               ylab = "Games Played") +
   stat_summary(fun = mean, geom = "point", shape = 20, size = 8, 
                color = "darkslategray1", fill = "darkslategray1") + 
   theme(axis.text.x = element_blank())
@@ -49,7 +53,9 @@ p3 <- ggviolin(df2, y = "wins",
                add = "boxplot", add.params = list(fill = "white"),
                main = "Distribution of Games Won:\nAll Current and Past NBA Franchises",
                font.main = "bold",
-               subtitle = "1946-2020", xlab = "", ylab = "Games Won") +
+               subtitle = "1946-2020", 
+               xlab = "", 
+               ylab = "Games Won") +
   stat_summary(fun = mean, geom = "point", shape = 20, size = 8, 
                color = "darkslategray1", fill = "darkslategray1") + 
   theme(axis.text.x = element_blank())
@@ -61,23 +67,25 @@ df2 %>%
 
 df3$games <- as.factor(df3$games)
 
-df3$games <- recode(df3$games, "'games' = 'Played';
-                        'wins' = 'Won'")
+df3$games <- recode(df3$games, "games" = "Played",
+                        "wins" = "Won")
 head(df3[,c(1, 7, 8)], 10)
 
 p4 <- gghistogram(df3, x = "counts", bins = 15,
    add = "mean", rug = TRUE,
    main = "Distributions of Games Played and Won",
    font.main = "bold", 
-   subtitle = "1946-2020", xlab = "Games Played / Games Won", ylab = "Frequency",
+   subtitle = "1946-2020", 
+   xlab = "Games Played / Games Won", 
+   ylab = "Frequency",
    legend.title = "", font.legend = "bold",
    legend = "top",
    color = "games", fill = "games") 
 
 p2 + p3 - p4 + plot_layout(ncol = 1)
 
-df4 <- filter(df1, parent_child != "child")
-
+df1 %>%
+  filter(parent_child != "child") -> df4
 dim(df4)
 
 df4 %>%
@@ -88,7 +96,8 @@ df4 %>%
   group_by(franchise) %>%
   summarize(games) %>%
 ggplot(aes(x = franchise, y = games)) +
-        theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)) +
+        theme(axis.text.x = element_text(angle = 90, 
+                                         hjust = 1, vjust = 0.5)) +
         stat_pareto() +
   ggtitle("Pareto Chart: Games Played (1946-2020)") +
   xlab("") +
