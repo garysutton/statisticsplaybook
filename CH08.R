@@ -3,19 +3,20 @@ library(janitor)
 library(patchwork)
 library(png)
 
-bucks <- readPNG('/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/bucks.png',                  
+bucks <- readPNG("/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/bucks.png",                  
                  native = TRUE)
 
-hawks <- readPNG('/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/hawks.png',
+hawks <- readPNG("/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/hawks.png",
                  native = TRUE)
 
-hornets <- readPNG('/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/hornets.png',
+hornets <- readPNG("/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/hornets.png",
                    native = TRUE)
 
-nba <- readPNG('/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/nba.png',
+nba <- readPNG("/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/nba.png",
                native = TRUE)
 
-pbp <- read_csv('/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/pbp.csv')
+pbp <- read_csv("/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/pbp.csv")
+
 glimpse(pbp) 
 
 pbp$data_set <- as.factor(pbp$data_set)
@@ -30,6 +31,9 @@ pbp %>%
   mutate(play_length2 = str_sub(play_length, -2, -1)) -> pbp
 pbp$play_length2 <- as.numeric(pbp$play_length2)
 
+pbp$event_type <- as.factor(pbp$event_type)
+levels(pbp$event_type)
+
 head(pbp$play_length)
 head(pbp$play_length2)
 
@@ -42,7 +46,7 @@ pbp$team <- as.factor(pbp$team)
 summary(pbp$team) 
 
 summary(pbp$points)
-                                                                                                                               * Points are not possible through most event types, hence the 267,122 NAs.
+                                                
 pbp %>% 
   filter(team == "MIL",
          play_length2 >= 5 & play_length2 <= 24,
