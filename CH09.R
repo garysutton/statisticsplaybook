@@ -6,12 +6,12 @@ library(vcd)
 library(questionr)
 library(rcompanion)
 
-NBAboxscores <- read_csv('/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/2012_18_officialBoxScore.csv')
+NBAboxscores <- read_csv("/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/2012_18_officialBoxScore.csv")
 
 dim(NBAboxscores) 
 
 NBAboxscores %>%
-  select(-starts_with('off')) -> NBAboxscores
+  select(-starts_with("off")) -> NBAboxscores
 dim(NBAboxscores)
 
 NBAboxscores <- unique(NBAboxscores)
@@ -46,6 +46,7 @@ mydata %>%
 dim(mydata) 
 
 map_df(mydata, class)
+
 mydata$teamLoc <- as.factor(mydata$teamLoc)
 mydata$teamRslt <- as.factor(mydata$teamRslt)
 mydata$teamDayOff <- as.factor(mydata$teamDayOff)
@@ -74,17 +75,17 @@ print(finaldf, n = 50)
 sum(finaldf$n) 
 
 ggplot(data = finaldf, aes(x = n, y = teamLoc, fill = teamLoc)) +
-  geom_bar(stat = 'identity') +
+  geom_bar(stat = "identity") +
   facet_wrap(teamDayOff~opptDayOff) +
-  labs(title = 'Home and Away Win Totals Broken Down by Days Off Permutations', 
-       subtitle = '2012-13 to 2017-18 Regular Seasons', 
-       caption = 'Top number in each panel represent home team prior days off\nBottom number in each panel represents away team prior days off',
-       x = 'Win Totals',
+  labs(title = "Home and Away Win Totals Broken Down by Days Off Permutations", 
+       subtitle = "2012-13 to 2017-18 Regular Seasons", 
+       caption = "Top number in each panel represent home team prior days off\nBottom number in each panel represents away team prior days off",
+       x = "Win Totals",
        y = "") +
   xlim(0,1500) +
   geom_text(aes(label = n, vjust = 0.1, hjust = -0.1)) +
-  theme(plot.title = element_text(face = 'bold')) +
-  theme(legend.position = 'none')
+  theme(plot.title = element_text(face = "bold")) +
+  theme(legend.position = "none")
 
 finaldf %>%
   filter(teamDayOff == opptDayOff) %>%
@@ -112,12 +113,12 @@ sqldf("select SUM(n) FROM finaldf WHERE teamLoc ='Away' and teamDayOff < opptDay
 
 chisq_table <- matrix(c(1552, 545, 1955, 1432, 717, 990), 
                       ncol = 2, byrow = TRUE)
-rownames(chisq_table) <- c('More Rest','Same Rest','Less Rest')
-colnames(chisq_table) <- c('Home Wins','Home Losses')
+rownames(chisq_table) <- c("More Rest","Same Rest","Less Rest")
+colnames(chisq_table) <- c("Home Wins","Home Losses")
 print(chisq_table)
 
 chisq_table <- as.table(as.matrix(chisq_table))
-balloonplot(t(chisq_table), main = 'Home Wins and Home Losses', 
+balloonplot(t(chisq_table), main = "Home Wins and Home Losses", 
             xlab = "", ylab = "",
             label = TRUE, show.margins = TRUE)
 
@@ -127,7 +128,7 @@ test <- chisq.test(chisq_table)
 test
 
 mosaic(chisq_table, shade = TRUE, legend = TRUE,
-       main = 'Home Wins and Home Losses')
+       main = "Home Wins and Home Losses")
 
 cramer.v(chisq_table)
 
