@@ -1,6 +1,6 @@
 library(tidyverse)
 
-dat1 <- read_csv('/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/seasons_stats.csv')
+dat1 <- read_csv("/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/seasons_stats.csv")
 
 dim(dat1)
 
@@ -16,39 +16,39 @@ dat1$Year <- as.factor(dat1$Year)
 dat1$Pos <- as.factor(dat1$Pos)
 dat1$Tm <- as.factor(dat1$Tm)
 
-distinct(dat1, Year, Player, Pos) -> test1
+dat1 %>%
+  distinct(Year, Player, Pos) -> test1
 dim(test1)
 
 dat1 %>%
-  filter(Tm == 'TOT') %>%
+  filter(Tm == "TOT") %>%
   tally()
 
 dat1 %>%
-  filter(Year == 1950, Player == 'Ed Bartels') -> test2
+  filter(Year == 1950, Player == "Ed Bartels") -> test2
 print(test2)
 
 dat1 %>%
-  filter(Tm != 'TOT') -> dat1
+  filter(Tm != "TOT") -> dat1
 dim(dat1)
 
 dat1 %>%
   group_by(Year, Player, Pos) %>%
   summarize(G = sum(G), PTS = sum(PTS)) -> dat2
-
 dim(dat2)
 
-test3 %>%
-  filter(Year == 1950, Player == 'Ed Bartels') -> test3
+dat2 %>%
+  filter(Year == 1950, Player == "Ed Bartels") -> test3
 print(test3)
 
 dat1 %>%
   group_by(Year) %>%
-  filter(Player == 'George Mikan*') -> test4
+  filter(Player == "George Mikan*") -> test4
 colorDF::highlight(test4, test4$Year == 1950)
 
 dat2 %>%
   group_by(Year) %>%
-  filter(Player == 'George Mikan*') -> test5
+  filter(Player == "George Mikan*") -> test5
 colorDF::highlight(test5, test5$Year == 1950)
 
 arsenal::comparedf(test4, test5)
@@ -67,6 +67,7 @@ dat2 %>%
 dat2$PPG <- as.numeric(dat2$PPG)
 
 dat2$Year_Player <- paste0(as.character(dat2$Year)," ", as.character(dat2$Player))
+
 head(dat2, n = 3)
 tail(dat2, n = 3)
 
@@ -76,7 +77,8 @@ dat2 %>%
 
 p1 <- ggplot(dat3, aes(x = Year_Player, y = PPG)) + 
   geom_bar(stat = "identity", color = "dodgerblue", fill = "dodgerblue") +
-  geom_text(aes(label = PPG), position = position_dodge(width = 0.8), vjust = -0.3,
+  geom_text(aes(label = PPG), 
+            position = position_dodge(width = 0.8), vjust = -0.3,
             fontface = "bold", size = 2) +
   labs(title = "Leading Scorer (PPG) by Year", 
        subtitle = "1950 to 1999", 
@@ -90,6 +92,7 @@ print(p1)
 dat2 %>%
   group_by(Year) %>%
   mutate(z_ppg = round((PPG - mean(PPG)) / sd(PPG), digits = 1)) -> dat4a
+
 head(dat4a, n = 3)
 tail(dat4a, n = 3)
 
@@ -102,7 +105,8 @@ dat4a %>%
 
 p2 <- ggplot(dat4b, aes(x = Year_Player, y = z_ppg)) + 
   geom_bar(stat = "identity", color = "darkorange", fill = "darkorange") +
-  geom_text(aes(label = z_ppg), position = position_dodge(width = 0.8), vjust = -0.3,
+  geom_text(aes(label = z_ppg), 
+            position = position_dodge(width = 0.8), vjust = -0.3,
             fontface = "bold", size = 2) +
   labs(title = "Leading Scorer (Z-Score) by Year", 
        subtitle = "1950 to 1999", 
@@ -127,7 +131,8 @@ dat5a %>%
 
 p3 <- ggplot(dat5b, aes(x = Year_Player, y = sd_ppg)) + 
   geom_bar(stat = "identity", color = "salmon3", fill = "salmon3") +
-  geom_text(aes(label = sd_ppg), position = position_dodge(width = 0.8), vjust = -0.3,
+  geom_text(aes(label = sd_ppg), 
+            position = position_dodge(width = 0.8), vjust = -0.3,
             fontface = "bold", size = 2) +
   labs(title = "Leading Scorer (Standard Deviation Method) by Year", 
        subtitle = "1950 to 1999", caption = "* Hall of Fame member",
@@ -154,7 +159,8 @@ tail(dat6b, n = 3)
 
 p4 <- ggplot(dat6b, aes(x = Year_Player, y = c_ppg)) + 
   geom_bar(stat = "identity", color = "aquamarine4", fill = "aquamarine4") +
-  geom_text(aes(label = c_ppg), position = position_dodge(width = 0.8), vjust = -0.3,
+  geom_text(aes(label = c_ppg), 
+            position = position_dodge(width = 0.8), vjust = -0.3,
             fontface = "bold", size = 2) +
   labs(title = "Leading Scorer (Centering Method) by Year", 
        subtitle = "1950 to 2017", 
