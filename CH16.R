@@ -1,12 +1,13 @@
-
 library(tidyverse)
 library(runner)
 
-ft <- read_csv('/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/pbp.csv')
+ft <- read_csv("/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/pbp.csv")
 
-ft <- select(ft, date, event_type, player, points, result, type)
+ft %>%
+  select(date, event_type, player, points, result, type) -> ft
 
-ft <- filter(ft, event_type == "free throw", type != "Free Throw Technical")
+ft %>%
+  filter(event_type == "free throw", type != "Free Throw Technical") -> ft
 
 ft$date <- as.Date(ft$date, "%Y-%m-%d")
 class(ft$date)
@@ -40,7 +41,9 @@ p1 <- ggplot(df, aes(x = independent_trials, y = laplace, group = 1)) +
      theme(plot.title = element_text(face = "bold")) 
 print(p1)
 
-filter(ft, player == "Giannis Antetokounmpo") -> giannis
+ft %>%
+  filter(player == "Giannis Antetokounmpo") -> giannis
+
 dim(giannis)
 sum(giannis$points)
 
@@ -85,10 +88,13 @@ colnames(coin_flips) <- c("heads_tails")
 
 coin_flips %>%
   mutate(streak = streak_run(heads_tails)) %>%
-  filter(heads_tails == 1)
+  filter(heads_tails == 1) -> coin_flips
+
 max(coin_flips$streak)
 
-filter(ft, player == "Julius Randle") -> randle
+ft %>%
+  filter(player == "Julius Randle") -> randle
+
 dim(randle)
 sum(randle$points)
 
@@ -127,7 +133,8 @@ p3 <- ggplot(randle_tbl2, aes(x = streak, y = pct, group = 1)) +
   theme(plot.title = element_text(face = "bold")) 
 print(p3)
 
-filter(ft, player == "James Harden") -> harden
+ft %>%
+  filter(player == "James Harden") -> harden
 dim(harden)
 sum(harden$points)
 
@@ -188,8 +195,10 @@ print(ft_tbl2)
 p5 <- ggplot(ft_tbl2, aes(x = streak, y = pct, group = 1)) + 
   geom_line(aes(y = pct), color = "steelblue", size = 1.5) +
   geom_point(size = 3, color = "steelblue") +
-  labs(title = "Entire NBA", subtitle = "Free Throw Percentage Following Consecutive Makes", 
-       x = "Consecutive Makes (Streak)", y = "Free Throw Shooting Percentage", 
+  labs(title = "Entire NBA", 
+       subtitle = "Free Throw Percentage Following Consecutive Makes", 
+       x = "Consecutive Makes (Streak)",
+       y = "Free Throw Shooting Percentage", 
        caption = "2019-20 regular season and postseason") +
   scale_x_continuous(breaks = seq(0, 23, 1)) +
   theme(plot.title = element_text(face = "bold")) +
