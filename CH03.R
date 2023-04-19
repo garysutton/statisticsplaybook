@@ -336,6 +336,6 @@ bg = par(bg = "darkseagreen1")
 plot(as.dendrogram(hc, cex = 0.6, hang = -1),
      main = "Cluster Dendrogram: Win Shares by First-Round Selection",
      xlab = "First-Round Selection Number\n2000-2009 NBA Drafts",
-     ylab = "Height (aka Euclidian Distance")
+     ylab = "Height (aka Euclidian Distance)"
 rect.hclust(hc, k = 2)
 
