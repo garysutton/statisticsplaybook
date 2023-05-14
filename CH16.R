@@ -51,7 +51,7 @@ giannis %>%
   group_by(date) %>%
   mutate(streak = streak_run(lag(points))) -> giannis_final
 
-head(giannis_final, n = 20)
+head(giannis_final, n = 10)
 
 giannis_final %>%
   group_by(date) %>%
@@ -102,7 +102,7 @@ randle %>%
   group_by(date) %>%
   mutate(streak = streak_run(lag(points))) -> randle_final
 
-head(randle_final, n = 20)
+head(randle_final, n = 10)
 
 randle_final %>%
   group_by(date) %>%
@@ -142,7 +142,7 @@ harden %>%
   group_by(date) %>%
   mutate(streak = streak_run(lag(points))) -> harden_final
 
-head(harden_final, n = 20)
+head(harden_final, n = 10)
 
 harden_final %>%
   group_by(date) %>%
@@ -176,7 +176,7 @@ ft %>%
   group_by(date, player) %>%
   mutate(streak = streak_run(lag(points))) -> ft_final
 
-head(ft_final, n = 20)
+head(ft_final, n = 10)
 
 ft_final %>%
   group_by(date, player) %>%
