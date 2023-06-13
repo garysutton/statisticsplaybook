@@ -188,6 +188,22 @@ ws4 <- ggplot(tibble4, aes(x = Pk2, y = median)) +
 
 ws3 + ws4 + plot_layout(ncol = 1)
 
+nodes <- data.frame(
+  "name" = c("E-mail", "Text",
+             "Men", "Women",
+             "Yes", "No"))
+links <- as.data.frame(matrix(c(
+  0,2,7, 0,3,3,
+  1,2,14, 1,3,6,
+  2,4,14, 2,5,7,
+  3,4,2, 3,5,7),
+  byrow = TRUE, ncol = 3))
+names(links) = c("source", "target", "value")
+sankeyNetwork(Links = links, Nodes = nodes,
+              Source = "source", Target = "target",
+              Value = "value", NodeID = "name",
+              fontSize = 12, nodeWidth = 30)
+
 draft2 %>%
   mutate(Age2 = trunc(Age)) -> draft2
 
@@ -321,21 +337,31 @@ print(vals2)
 
 sum(as.numeric(probs2) * as.numeric(vals2))
 
-draft_clust <- select(draft2, Pk, WS)
+draft2 %>%
+  select(Pk, WS) -> draft_clust
+
 draft_clust %>%
   group_by(Pk) %>%
   summarize(ws = mean(WS)) -> draft_clust_final
 head(draft_clust_final, n = 3)
 tail(draft_clust_final, n = 3)
 
-d <- dist(draft_clust_final, method = "euclidean")
-print(d)
+euclidean_distance <- sqrt((1 - 3)^2 + (69.6 - 66.9)^2)
+euclidean_distance
+
+euclidean_distance <- sqrt((2 - 3)^2 + (51.5 - 66.9)^2)
+euclidean_distance
+
+distance_matrix <- dist(draft_clust_final, method = "euclidean")
+print(distance_matrix)
 
 hc <- hclust(d, method = "complete")
 bg = par(bg = "darkseagreen1")
 plot(as.dendrogram(hc, cex = 0.6, hang = -1),
      main = "Cluster Dendrogram: Win Shares by First-Round Selection",
      xlab = "First-Round Selection Number\n2000-2009 NBA Drafts",
-     ylab = "Height (aka Euclidian Distance")
+     ylab = "Height (aka Euclidian Distance)")
 rect.hclust(hc, k = 2)
 
+euclidean_distance <- sqrt((1 - 3)^2 + (69.6 - 66.9)^2)
+euclidean_distance
