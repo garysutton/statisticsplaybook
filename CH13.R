@@ -7,8 +7,6 @@ library(effsize)
 library(effectsize)
 library(car)
 
-tidyverse_packages(include_self = FALSE)
-
 ws_gini <- read_csv("/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/seasons_stats.csv")
 
 dim(ws_gini)
@@ -360,3 +358,5 @@ ggplot(ws_gini_summary4, aes(x = ws_gini_band, y = mean_pct)) +
   geom_text(aes(x = ws_gini_band, y = mean_pct, 
                 label = mean_pct, vjust = -0.3, fontface = "bold")) +
   theme(plot.title = element_text(face = "bold"))
+
+

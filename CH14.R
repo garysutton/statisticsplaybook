@@ -1,4 +1,4 @@
-packages <- c("tidyverse", "patchwork", "ggpubr", "pscl", "SciViews", "questionr", "caret", "InformationValue")
+packages <- c("tidyverse", "patchwork", "ggpubr", "pscl", "SciViews", "questionr", "caret", "pROC")
 
 lapply(packages, library, character.only = TRUE)
 
@@ -259,6 +259,8 @@ summary(fit3)
 
 pR2(fit3)["McFadden"]
 
+varImp(fit3)
+
 ln(2.33)
 
 exp(0.85)
@@ -269,18 +271,37 @@ plogis(-1.72)
 
 predicted_fit3 <- predict(fit3, test, type = "response")
 
-print(predicted_fit3)
+test %>%
+  ungroup(season) %>%
+  select(playoffs2) -> actuals
+  
+actuals %>%
+  rename(actual_values = playoffs2) -> actuals
 
-optimal_fit3 <- optimalCutoff(test$playoffs2, predicted_fit3)[1]
-print(optimal_fit3)
+predictions <- as.data.frame(predicted_fit3)
 
-confusionMatrix(test$playoffs2, predicted_fit3)
+predictions %>%
+  rename(predicted_values = predicted_fit3) -> predictions
 
-sensitivity(test$playoffs2, predicted_fit3)
-specificity(test$playoffs2, predicted_fit3)
-misClassError(test$playoffs2, predicted_fit3, threshold = optimal_fit3)
+predictions %>%
+  mutate(predicted_values2 = ifelse(predicted_values >= 0.50, 1, 0)) -> predictions
 
-plotROC(test$playoffs2, predicted_fit3)
+confusion_matrix <- table(actuals$actual_values, predictions$predicted_values2)
+print(confusion_matrix)
+
+sensitivity(actuals$actual_values, predictions$predicted_values2)
+specificity(actuals$actual_values, predictions$predicted_values2)
+print(misclassification_error <- (11 + 10) / 80)
+print(accuracy <- 1 - misclassification_error)
+
+roc_curve <- roc(actuals$actual_values, predictions$predicted_values2)
+print(roc_curve)
+
+plot(roc_curve, 
+     col = "red", 
+     main = " ROC Curve: AUC = 0.72",
+     xlab = "Specificity: TN / (TN + FP)",
+     ylab = "Sensitivity: TP / (TP + FN)")
 
 fit4 <- glm(playoffs2 ~ z_pts, family = "binomial", data = train)
 summary(fit4)
@@ -289,18 +310,34 @@ plogis(0.63)
 
 pR2(fit4)["McFadden"]
 
+varImp(fit4)
+
 predicted_fit4 <-predict(fit4, test, type = "response")
 
-optimal_fit4 <- optimalCutoff(test$playoffs2, predicted_fit4)[1]
-print(optimal_fit4)
+predictions <- as.data.frame(predicted_fit4)
 
-confusionMatrix(test$playoffs2, predicted_fit4)
+predictions %>%
+  rename(predicted_values = predicted_fit4) -> predictions
 
-sensitivity(test$playoffs2, predicted_fit4)
-specificity(test$playoffs2, predicted_fit4)
-misClassError(test$playoffs2, predicted_fit4, threshold = optimal_fit4)
+predictions %>%
+  mutate(predicted_values2 = ifelse(predicted_values >= 0.50, 1, 0)) -> predictions
 
-plotROC(test$playoffs2, predicted_fit4)
+confusion_matrix <- table(actuals$actual_values, predictions$predicted_values2)
+print(confusion_matrix)
+
+sensitivity(actuals$actual_values, predictions$predicted_values2)
+specificity(actuals$actual_values, predictions$predicted_values2)
+print(misclassification_error <- (3 + 22) / 80)
+print(accuracy <- 1 - misclassification_error)
+
+roc_curve <- roc(actuals$actual_values, predictions$predicted_values2)
+print(roc_curve)
+
+plot(roc_curve, 
+     col = "blue", 
+     main = " ROC Curve: AUC = 0.73",
+     xlab = "Specificity: TN / (TN + FP)",
+     ylab = "Sensitivity: TP / (TP + FN)")
 
 nba_stats %>%
   filter(playoffs == 11) %>%
