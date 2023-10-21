@@ -31,7 +31,8 @@ g1 <- ggplot(tibble1, aes(x = Pk2, y = mean)) +
   geom_bar(stat = "identity", width = .8, 
            fill = "coral", color = "coral4") + 
   labs(title = "Average Career Games Played",
-       subtitle = "First-Round Selections between 2000 and 2009 NBA Drafts", 
+       subtitle = "First-Round Selections between
+       2000 and 2009 NBA Drafts", 
        x = "Segment", 
        y = "Average Career Games Played",
        caption = "regular season games only") + 
@@ -48,7 +49,8 @@ g2 <- ggplot(tibble1, aes(x = Pk2, y = median)) +
   geom_bar(stat = "identity", width = .8, 
            fill = "coral3", color = "coral4") + 
   labs(title = "Median Career Games Played",
-       subtitle = "First-Round Selections between 2000 and 2009 NBA Drafts", 
+       subtitle = "First-Round Selections between
+       2000 and 2009 NBA Drafts", 
        x = "Segment", 
        y = "Median Career Games Played",
        caption = "regular season games only") + 
@@ -74,7 +76,8 @@ mp1 <- ggplot(tibble2, aes(x = Pk2, y = mean)) +
   geom_bar(stat = "identity", width = .8, 
            fill = "deepskyblue", color = "deepskyblue4") + 
   labs(title = "Average Minutes Played per Game",
-       subtitle = "First-Round Selections between 2000 and 2009 NBA Drafts", 
+       subtitle = "First-Round Selections between 
+       2000 and 2009 NBA Drafts", 
        x = "Segment", 
        y = "Average Minutes Played per Game",
        caption = "regular season games only") + 
@@ -91,7 +94,8 @@ mp2 <- ggplot(tibble2, aes(x = Pk2, y = median)) +
   geom_bar(stat = "identity", width = .8, 
            fill = "deepskyblue3", color = "deepskyblue4") + 
   labs(title = "Median Minutes Played per Game",
-       subtitle = "First-Round Selections between 2000 and 2009 NBA Drafts", 
+       subtitle = "First-Round Selections between 
+       2000 and 2009 NBA Drafts", 
        x = "Segment", 
        y = "Median Minutes Played per Game",
        caption = "regular season games only") + 
@@ -117,7 +121,8 @@ ws1 <- ggplot(tibble3, aes(x = Pk2, y = mean)) +
   geom_bar(stat = "identity", width = .8, 
            fill = "springgreen", color = "springgreen4") + 
   labs(title = "Average Career Win Shares",
-       subtitle = "First-Round Selections between 2000 and 2009 NBA Drafts", 
+       subtitle = "First-Round Selections between 
+       2000 and 2009 NBA Drafts", 
        x = "Segment", 
        y = "Average Career Win Shares",
        caption = "regular season games only") + 
@@ -131,9 +136,11 @@ ws1 <- ggplot(tibble3, aes(x = Pk2, y = mean)) +
   theme(plot.title = element_text(face = "bold"))
 
 ws2 <- ggplot(tibble3, aes(x = Pk2, y = median)) + 
-  geom_bar(stat = "identity", width = .8, fill = "springgreen3", color = "springgreen4") + 
+  geom_bar(stat = "identity", width = .8, 
+           fill = "springgreen3", color = "springgreen4") + 
   labs(title = "Median Career Win Shares",
-       subtitle = "First-Round Selections between 2000 and 2009 NBA Drafts", 
+       subtitle = "First-Round Selections between 
+       2000 and 2009 NBA Drafts", 
        x = "Segment", y = "Median Career Win Shares",
        caption = "regular season games only") + 
   scale_x_discrete(limits = c("1-5", "6-10", "11-15", 
@@ -158,7 +165,8 @@ ws3 <- ggplot(tibble4, aes(x = Pk2, y = mean)) +
   geom_bar(stat = "identity", width = .8, 
            fill = "gold", color = "gold4") + 
   labs(title = "Average Win Shares per 48 Minutes",
-       subtitle = "First-Round Selections between 2000 and 2009 NBA Drafts", 
+       subtitle = "First-Round Selections between 
+       2000 and 2009 NBA Drafts", 
        x = "Segment", 
        y = "Average Win Shares per 48 Minutes",
        caption = "regular season games only") + 
@@ -172,9 +180,11 @@ ws3 <- ggplot(tibble4, aes(x = Pk2, y = mean)) +
   theme(plot.title = element_text(face = "bold"))
 
 ws4 <- ggplot(tibble4, aes(x = Pk2, y = median)) + 
-  geom_bar(stat = "identity", width = .8, fill = "gold3", color = "gold4") + 
+  geom_bar(stat = "identity", width = .8, 
+           fill = "gold3", color = "gold4") + 
   labs(title = "Median Win Shares per 48 Minutes",
-       subtitle = "First-Round Selections between 2000 and 2009 NBA Drafts", 
+       subtitle = "First-Round Selections between 
+       2000 and 2009 NBA Drafts", 
        x = "Segment", y = "Median Win Shares per 48 Minutes",
        caption = "regular season games only") + 
   scale_x_discrete(limits = c("1-5", "6-10", "11-15", 
@@ -355,13 +365,11 @@ euclidean_distance
 distance_matrix <- dist(draft_clust_final, method = "euclidean")
 print(distance_matrix)
 
-hc <- hclust(d, method = "complete")
+hc <- hclust(distance_matrix, method = "complete")
 bg = par(bg = "darkseagreen1")
 plot(as.dendrogram(hc, cex = 0.6, hang = -1),
-     main = "Cluster Dendrogram: Win Shares by First-Round Selection",
+     main = "Cluster Dendrogram:\nWin Shares by First-Round Selection",
      xlab = "First-Round Selection Number\n2000-2009 NBA Drafts",
      ylab = "Height (aka Euclidian Distance)")
 rect.hclust(hc, k = 2)
 
-euclidean_distance <- sqrt((1 - 3)^2 + (69.6 - 66.9)^2)
-euclidean_distance

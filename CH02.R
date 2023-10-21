@@ -19,7 +19,6 @@ tail(draft, 3)
 
 draft$Year <- as.factor(draft$Year)
 draft$Tm <- as.factor(draft$Tm)
-# draft$Pos <- as.factor(draft$Pos)
 draft$Born <- as.factor(draft$Born)
 draft$From <- as.factor(draft$From)
 draft$To <- as.factor(draft$To)
@@ -36,15 +35,17 @@ draft$College2 <- as.factor(draft$College2)
 levels(draft$Pos)
 
 draft$Pos2 <- draft$Pos
-draft$Pos2 <- recode(draft$Pos2, "C" = "Center", "C-F" = "Big", "F" = "Forward", "F-C" = "Big", "F-G" = "Swingman", "G" = "Guard", "G-F" = "Swingman") 
-levels(draft$Pos2)
-draft$College2 <- factor(draft$College2)
-
-draft$Pos2 <- draft$Pos
-draft$Pos2 <- recode(draft$Pos2, C = "Center", C-F = "Big", F = "Forward", F-C = "Big",
-       F-G = "Swingman", G = "Guard", G-F = "Swingman") 
-levels(draft$Pos2)
+draft$Pos2 <- recode(draft$Pos2, 
+                     "C" = "Center", 
+                     "C-F" = "Big", 
+                     "F" = "Forward", 
+                     "F-C" = "Big", 
+                     "F-G" = "Swingman", 
+                     "G" = "Guard", 
+                     "G-F" = "Swingman") 
+draft$Pos <- factor(draft$Pos)
 draft$Pos2 <- factor(draft$Pos2)
+levels(draft$Pos2)
 
 head(draft)
 
@@ -72,7 +73,8 @@ sqldf("SELECT max(Age), Player, Tm, Pk, Year FROM draft")
 p1 <- ggplot(draft, aes(x = WS)) + 
   geom_histogram(fill = "royalblue3", color = "royalblue3", 
                  bins = 8) + 
-  labs(title = "Career Win Shares Distribution of NBA First-Round Selections",
+  labs(title = "Career Win Shares Distribution of
+       NBA First-Round Selections",
        subtitle = "2000-09 NBA Drafts",
        x = "Career Win Shares",
        y = "Frequency") +
@@ -87,7 +89,8 @@ sqldf("select COUNT (*) FROM draft WHERE WS <= 25")
 
 p2 <- ggplot(draft, aes(x = College2, y = WS)) + 
   geom_boxplot(color = "orange4", fill = "orange1") +  
-  labs(title = "Career Win Shares Distribution of NBA First-Round Selections",
+  labs(title = "Career Win Shares Distribution of 
+       NBA First-Round Selections",
        x = "", 
        y = "Career Win Shares", 
        subtitle = "2000-09 NBA Drafts") + 
@@ -101,7 +104,8 @@ print(p2)
 
 p3 <- ggplot(draft, aes(x = Year, y = WS)) + 
   geom_boxplot(color = "dodgerblue4", fill = "dodgerblue" ) +
-  labs(title = "Year-over_Year Win Shares Distribution of NBA First-Round Selections",
+  labs(title = "Year-over_Year Win Shares Distribution of 
+       NBA First-Round Selections",
        x = "", 
        y = "Win Shares", 
        subtitle = "2000-09 NBA Drafts") + 
@@ -131,7 +135,8 @@ print(third_tibble)
 
 sqldf("SELECT Player, Pk FROM draft WHERE WS >= 75 AND Year == 2001")
 
-sqldf("SELECT Player, Pk, WS FROM draft WHERE WS >= 75 AND Year == 2003 ORDER BY WS DESC")
+sqldf("SELECT Player, Pk, WS
+      FROM draft WHERE WS >= 75 AND Year == 2003 ORDER BY WS DESC")
 
 draft %>%
   filter(WS >= 75) %>%
@@ -202,7 +207,8 @@ p4 <- ggplot(data = draft_cor, aes(x = Var1,
   scale_fill_gradient2(midpoint = 0.5, mid = "grey84", 
                        limits = c(-1, 1)) +
   labs(title = "Correlation Matrix", 
-    subtitle = "Correlation Coefficients between Win Shares and Other Continuous Variables",
+    subtitle = "Correlation Coefficients between 
+    Win Shares and Other Continuous Variables",
     x = "", 
     y = "", 
     fill = "Correlation\nCoefficient", 
@@ -223,7 +229,7 @@ print(tenth_tibble)
 
 p5 <- ggplot(tenth_tibble, aes(x = Born2, y = meanWS)) + 
   geom_bar(stat = "identity", width = .5, fill  = "darkorchid4") + 
-  labs(title = "Average Career Win Shares by Place of Birth",
+  labs(title = "Average Win Shares by Place of Birth",
        subtitle = "2000-09 NBA Drafts", 
        x = "Where Born", 
        y = "Average Career Win Shares") + 
@@ -233,7 +239,7 @@ p5 <- ggplot(tenth_tibble, aes(x = Born2, y = meanWS)) +
 
 p6 <- ggplot(tenth_tibble, aes(x = Born2, y = medianWS)) + 
   geom_bar(stat = "identity", width = .5, fill  = "sienna1") + 
-  labs(title = "Median Career Win Shares by Place of Birth",
+  labs(title = "Median Win Shares by Place of Birth",
        subtitle = "2000-09 NBA Drafts", 
        x = "Where Born", 
        y = "Median Career Win Shares") + 
@@ -251,7 +257,7 @@ print(eleventh_tibble)
 
 p7 <- ggplot(eleventh_tibble, aes(x = College2, y = meanWS)) + 
   geom_bar(stat = "identity", width = .5, fill  = "darkorchid4") + 
-  labs(title = "Average Career Win Shares: College vs. No College",
+  labs(title = "Average Win Shares: College / No College",
        subtitle = "2000-09 NBA Drafts", 
        x = "College or No College",
        y = "Average Career Win Shares") + 
@@ -263,7 +269,7 @@ p7 <- ggplot(eleventh_tibble, aes(x = College2, y = meanWS)) +
 
 p8 <- ggplot(eleventh_tibble, aes(x = College2, y = medianWS)) + 
   geom_bar(stat = "identity", width = .5, fill  = "sienna1") + 
-  labs(title = "Median Career Win Shares: College vs. No College",
+  labs(title = "Median Win Shares: College / No College",
        subtitle = "2000-09 NBA Drafts", 
        x = "College or No College",
        y = "Median Career Win Shares") + 
@@ -290,6 +296,7 @@ p9 <- ggplot(twelfth_tibble, aes(x = Pos2, y = mean)) +
        y = "Win Shares",
        subtitle = "2000-09 NBA Drafts") + 
   theme(plot.title = element_text(face = "bold")) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   facet_grid(Born2 ~ College2, labeller = labeller(College2 = new_labels))
 
 new_labels <- c("0" = "No College", "1" = "College")
@@ -300,9 +307,12 @@ p10 <- ggplot(twelfth_tibble, aes(x = Pos2, y = median)) +
        y = "Win Shares",
        subtitle = "2000-09 NBA drafts") + 
   theme(plot.title = element_text(face = "bold")) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   facet_grid(Born2 ~ College2, labeller = labeller(College2 = new_labels))
 
 p9 + p10 + plot_layout(ncol = 2)
  
 draft -> draft2
-write.csv(draft2,"/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/draft2.csv", row.names = FALSE)
+write.csv(draft2,"/Users/garysutton/Library/Mobile Documents/
+          com~apple~CloudDocs/draft2.csv", row.names = FALSE)
+

@@ -283,7 +283,8 @@ print(cor1)
 
 hustle %>% 
   select(-c(1:3, 6, 8)) -> hustle2
-ggpairs(hustle2)
+ggpairs(hustle2) + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
 cor(hustle2)
 
@@ -299,12 +300,15 @@ tidy(fit1)
 
 hustle %>%
   filter(team_season == "MIA 17") %>%
-  select(wins, screen_assists_pts, deflections, loose_balls, contested_2pt, contested_shots)
+  select(wins, screen_assists_pts, deflections, loose_balls,
+         contested_2pt, contested_shots)
 
-wins = -62.91 + (1.04 * 22.3) + (2.23 * 14.2) + (5.38 * 7.2) + (0.52 * 45.5) - (0.24 * 64.7)
+wins = -62.91 + (1.04 * 22.3) + (2.23 * 14.2) + (5.38 * 7.2) + 
+  (0.52 * 45.5) - (0.24 * 64.7)
 print(round(wins))
 
-wins = -62.91 + (1.04 * 22.3) + (2.23 * 14.2) + (5.38 * 8.2) + (0.52 * 45.5) - (0.24 * 64.7)
+wins = -62.91 + (1.04 * 22.3) + (2.23 * 14.2) + (5.38 * 8.2) + 
+  (0.52 * 45.5) - (0.24 * 64.7)
 print(round(wins))
 
 augment(fit1) -> fit1_tbl
@@ -324,7 +328,8 @@ vif(fit1)
 par(mfrow = c(2, 2))
 plot(fit1)
 
-fit2 <- lm(wins ~ screen_assists_pts + deflections + loose_balls, data = train)
+fit2 <- lm(wins ~ screen_assists_pts + deflections + loose_balls, 
+           data = train)
 
 tidy(fit2)
 
@@ -354,8 +359,10 @@ mean(fit_tbl_pred$wins_dif)
 
 p1 <- ggplot(fit_tbl_pred, aes(x = wins_dif)) +
   geom_histogram(fill = "snow1", color = "dodgerblue4", bins = 6) + 
-  labs(title = "Frequency of Differences between Actual and Predicted Wins",
-       subtitle = "Wins ~ Points Off Screens + Deflections + Loose Balls Recovered",
+  labs(title = "Frequency of Differences between
+       Actual and Predicted Wins",
+       subtitle = "Wins ~ Points Off Screens + Deflections + 
+       Loose Balls Recovered",
        x = "Difference between Actual and Predicted Wins", 
        y = "Frequency") +
   theme(plot.title = element_text(face = "bold"))
@@ -378,13 +385,15 @@ p2 <- ggplot(fit_tbl_pred, aes(x = row_num, y = wins, group = 1)) +
   geom_ribbon(aes(ymin = lwr, ymax = upr), alpha = 0.2) +
   labs(title = "Actual Wins versus Predicted Wins",
        subtitle = "Results on test data set (23 observations)",
-       x = "2016-17 through 2018-19\nSorted in Ascending Order by Actual Wins", 
+       x = "2016-17 through 2018-19\nSorted in Ascending Order
+           by Actual Wins", 
        y = "Wins",             
        caption = "Actuals in dark\nPredictions in light") +
   theme(plot.title = element_text(face = "bold")) 
 print(p2)
 
-fit3 <- tree(formula = wins ~ screen_assists_pts + deflections + loose_balls + contested_2pt + contested_shots, data = train)
+fit3 <- tree(formula = wins ~ screen_assists_pts + deflections + 
+               loose_balls + contested_2pt + contested_shots, data = train)
 summary(fit3)
 
 plot(fit3)
