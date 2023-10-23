@@ -28,7 +28,8 @@ salaries %>%
   filter(Team == "Charlotte Hornets") -> cha
 
 cha %>%
-  select(Team, sa2017:sa2005, sa2002:sa2000, w2017:w2005, w2002:w2000) -> cha
+  select(Team, sa2017:sa2005, sa2002:sa2000, w2017:w2005, 
+         w2002:w2000) -> cha
 
 cha %>%
   mutate(sumSalaries = rowSums(.[2:17]),
@@ -57,7 +58,8 @@ nop %>%
 print(nop_final)
 
 salaries %>%
-  filter(Team != "Charlotte Hornets" & Team != "New Orleans Pelicans") -> league
+  filter(Team != "Charlotte Hornets" & 
+           Team != "New Orleans Pelicans") -> league
 
 league %>%
   select(Team, sa2017:sa2000, w2017:w2000) -> league
@@ -84,9 +86,10 @@ tail(final, n = 3)
 p1 <- ggplot(final) +
   geom_segment(aes(x = Team, xend = Team, 
                    y = zSalaries, yend = zWins), color = "grey50") +
-  geom_point(aes(x = Team, y = zSalaries), color = "springgreen3", size = 3) +
+  geom_point(aes(x = Team, y = zSalaries), color = "springgreen3", 
+             size = 3) +
   geom_point(aes(x = Team, y = zWins), color = "darkred", size = 3) +
-  labs(title = "Comparison of Inflation-Adjusted Payrolls versus Regular Season Wins",
+  labs(title = "Inflation-Adjusted Payrolls vs. Regular Season Wins",
        subtitle = "2000-17", 
        x = "", 
        y = "Standard Deviations", 
@@ -117,8 +120,10 @@ p2 <- ggplot(final, aes(x = reorder(Team, -efficiency), y = efficiency)) +
        subtitle = "2021 USD", 
        x = "", 
        y = "Salary Spend per Regular Season Win", 
-       caption = "Average number of regular season wins affixed atop bars") + 
-  scale_y_continuous(labels = label_dollar(scale_cut = cut_short_scale())) +
+       caption = "Average number of regular season wins 
+       affixed atop bars") + 
+  scale_y_continuous(labels = 
+                       label_dollar(scale_cut = cut_short_scale())) +
   geom_text(aes(label = meanWins, fontface = "bold", 
                 vjust = 0.3, hjust = -0.4)) +
   theme(plot.title = element_text(face = "bold"))
@@ -247,7 +252,7 @@ p11 <- fviz_cluster(k, data = final_kmeans,
   theme(legend.position = "none")
 
 #####
-p6 + p7 + p8 + p9 + p10 + p11 + plot_layout(ncol = 3)
+p6 + p7 + p8 + p9 + p10 + p11 + plot_layout(ncol = 2)
 
 
 

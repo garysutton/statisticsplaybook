@@ -32,13 +32,17 @@ nbadf1 %>%
 dim(home) 
 
 road %>%
-  rename(dataset = DATASET, ID = GAME_ID, date = DATE, teamR = TEAM, 
-         venueR = VENUE, Q1R = Q1, Q2R = Q2, Q3R = Q3, Q4R = Q4, OT1R = OT1,       
-         OT2R = OT2, OT3R = OT3, OT4R = OT4, OT5R = OT5, FR = F, MINR = MIN) -> road
+  rename(dataset = DATASET, ID = GAME_ID, date = DATE, 
+         teamR = TEAM, venueR = VENUE, Q1R = Q1, Q2R = Q2, 
+         Q3R = Q3, Q4R = Q4, OT1R = OT1,       
+         OT2R = OT2, OT3R = OT3, OT4R = OT4, 
+         OT5R = OT5, FR = F, MINR = MIN) -> road
 home %>%
-  rename(dataset = DATASET, ID = GAME_ID, date = DATE, teamH = TEAM, 
-         venueH = VENUE, Q1H = Q1, Q2H = Q2, Q3H = Q3, Q4H = Q4, OT1H = OT1,       
-         OT2H = OT2, OT3H = OT3, OT4H = OT4, OT5H = OT5, FH = F, MINH = MIN) -> home 
+  rename(dataset = DATASET, ID = GAME_ID, date = DATE, 
+         teamH = TEAM, venueH = VENUE, Q1H = Q1, Q2H = Q2,
+         Q3H = Q3, Q4H = Q4, OT1H = OT1,       
+         OT2H = OT2, OT3H = OT3, OT4H = OT4, 
+         OT5H = OT5, FH = F, MINH = MIN) -> home 
 
 left_join(road, home, by = c("dataset", "ID", "date")) -> nbadf2 
 dim(nbadf2)
@@ -101,8 +105,7 @@ plot1a <- ggplot(tbl1, aes(x = reorder(Q1vF, -n), y = n)) +
            stat = "identity") + 
   labs(title = "Teams Winning the First Quarter", 
        subtitle = "Win-Loss Record = 1,333-657",
-       caption = "\n2018-19 and 2019-20 regular season games that ended in regulation\n2020 'bubble' games excluded",
-       x = "Win Combinations between First Quarter and End of Game", 
+       x = "Win Combinations", 
        y = "Wins") + 
   geom_text(aes(x = Q1vF, y = n, label = n, vjust = -0.3, 
                 fontface = "bold")) +
@@ -114,8 +117,7 @@ plot1b <- ggplot(tbl1, aes(x = reorder(Q1vF, -pct_total), y = pct_total)) +
            stat = "identity") + 
   labs(title = "Teams Winning the First Quarter", 
        subtitle = "Winning Percentage = 66.98%",
-       caption = "\n2018-19 and 2019-20 regular season games that ended in regulation\n2020 'bubble' games excluded",
-       x = "Win Combinations between First Quarter and End of Game", 
+       x = "Win Combinations", 
        y = "Winning Percentage") + 
   geom_text(aes(x = Q1vF, y = pct_total, label = pct_total, 
                 vjust = -0.3, fontface = "bold")) +
@@ -148,8 +150,7 @@ plot2a <- ggplot(tbl2, aes(x = reorder(Q2vF, -n), y = n)) +
            stat = "identity") + 
   labs(title = "Teams Winning the Second Quarter", 
        subtitle = "Win-Loss Record = 1,266-692",
-       caption = "\n2018-19 and 2019-20 regular season games that ended in regulation\n2020 'bubble' games excluded",
-       x = "Win Combinations between Second Quarter and End of Game", 
+       x = "Win Combinations", 
        y = "Wins") + 
   geom_text(aes(x = Q2vF, y = n, label = n,
                 vjust = -0.3, fontface = "bold")) +
@@ -161,8 +162,7 @@ plot2b <- ggplot(tbl2, aes(x = reorder(Q2vF, -pct_total), y = pct_total)) +
            stat = "identity") + 
   labs(title = "Teams Winning the Second Quarter", 
        subtitle = "Winning Percentage = 64.66%",
-       caption = "\n2018-19 and 2019-20 regular season games that ended in regulation\n2020 'bubble' games excluded",
-       x = "Win Combinations between Second Quarter and End of Game", 
+       x = "Win Combinations", 
        y = "Winning Percentage") + 
   geom_text(aes(x = Q2vF, y = pct_total, label = pct_total, 
                 vjust = -0.3, fontface = "bold")) +
@@ -195,8 +195,7 @@ plot3a <- ggplot(tbl3, aes(x = reorder(Q3vF, -n), y = n)) +
            stat = "identity") + 
   labs(title = "Teams Winning the Third Quarter", 
        subtitle = "Win-Loss Record = 1,322-645",
-       caption = "\n2018-19 and 2019-20 regular season games that ended in regulation\n2020 'bubble' games excluded",
-       x = "Win Combinations between Third Quarter and End of Game", 
+       x = "Win Combinations", 
        y = "Wins") + 
   geom_text(aes(x = Q3vF, y = n, label = n, 
                 vjust = -0.3, fontface = "bold")) +
@@ -208,8 +207,7 @@ plot3b <- ggplot(tbl3, aes(x = reorder(Q3vF, -pct_total), y = pct_total)) +
            stat = "identity") + 
   labs(title = "Teams Winning the Second Quarter", 
        subtitle = "Winning Percentage = 67.21%",
-       caption = "\n2018-19 and 2019-20 regular season games that ended in regulation\n2020 'bubble' games excluded",
-       x = "Win Combinations between Third Quarter and End of Game", 
+       x = "Win Combinations", 
        y = "Winning Percentage") + 
   geom_text(aes(x = Q3vF, y = pct_total, label = pct_total, 
                 vjust = -0.3, fontface = "bold")) +
@@ -242,8 +240,7 @@ plot4a <- ggplot(tbl4, aes(x = reorder(Q4vF, -n), y = n)) +
            stat = "identity") + 
   labs(title = "Teams Winning the Fourth Quarter", 
        subtitle = "Win-Loss Record = 1,291-673",
-       caption = "\n2018-19 and 2019-20 regular season games that ended in regulation\n2020 'bubble' games excluded",
-       x = "Win Combinations between Fourth Quarter and End of Game", 
+       x = "Win Combinations", 
        y = "Wins") + 
   geom_text(aes(x = Q4vF, y = n, label = n,
                 vjust = -0.3, fontface = "bold")) +
@@ -255,8 +252,7 @@ plot4b <- ggplot(tbl4, aes(x = reorder(Q4vF, -pct_total), y = pct_total)) +
            stat = "identity") + 
   labs(title = "Teams Winning the Fourth Quarter", 
        subtitle = "Winning Percentage = 65.73%",
-       caption = "\n2018-19 and 2019-20 regular season games that ended in regulation\n2020 'bubble' games excluded",
-       x = "Win Combinations between Fourth Quarter and End of Game", 
+       x = "Win Combinations", 
        y = "Winning Percentage") + 
   geom_text(aes(x = Q4vF, y = pct_total, label = pct_total, 
                 vjust = -0.3, fontface = "bold")) +
@@ -265,7 +261,9 @@ plot4b <- ggplot(tbl4, aes(x = reorder(Q4vF, -pct_total), y = pct_total)) +
 plot4a + plot4b + plot_layout(ncol = 2)
 
 nbadf3 %>% 
-  filter(teamR == "Milwaukee" | teamR == "Toronto" | teamR == "Boston" | teamR == "Denver" | teamR == "Houston" | teamR == "LA Clippers") -> nbadf7
+  filter(teamR == "Milwaukee" | teamR == "Toronto" | 
+           teamR == "Boston" | teamR == "Denver" | 
+           teamR == "Houston" | teamR == "LA Clippers") -> nbadf7
 
 nbadf7 %>%
   filter(Q1vF == "RR" | Q1vF == "RH") -> nbadf8
@@ -277,7 +275,9 @@ tbl5$pct_total <- round(tbl5$pct_total, digits = 2)
 print(tbl5)
 
 nbadf4 %>% 
-  filter(teamR == "Milwaukee" | teamR == "Toronto" | teamR == "Boston" | teamR == "Denver" | teamR == "Houston" | teamR == "LA Clippers") -> nbadf9
+  filter(teamR == "Milwaukee" | teamR == "Toronto" | 
+           teamR == "Boston" | teamR == "Denver" | 
+           teamR == "Houston" | teamR == "LA Clippers") -> nbadf9
 
 nbadf9 %>%
   filter(Q2vF == "RR" | Q2vF == "RH") -> nbadf10
@@ -289,7 +289,9 @@ tbl6$pct_total <- round(tbl6$pct_total, digits = 2)
 print(tbl6)
 
 nbadf5 %>%
-  filter(teamR == "Milwaukee" | teamR == "Toronto" | teamR == "Boston" | teamR == "Denver" | teamR == "Houston" | teamR == "LA Clippers") -> nbadf11
+  filter(teamR == "Milwaukee" | teamR == "Toronto" | 
+           teamR == "Boston" | teamR == "Denver" | 
+           teamR == "Houston" | teamR == "LA Clippers") -> nbadf11
 
 nbadf11 %>% 
   filter(Q3vF == "RR" | Q3vF == "RH") -> nbadf12
@@ -301,7 +303,9 @@ tbl7$pct_total <- round(tbl7$pct_total, digits = 2)
 print(tbl7)
 
 nbadf6 %>% 
-  filter(teamR == "Milwaukee" | teamR == "Toronto" | teamR == "Boston" | teamR == "Denver" | teamR == "Houston" | teamR == "LA Clippers") -> nbadf13
+  filter(teamR == "Milwaukee" | teamR == "Toronto" | 
+           teamR == "Boston" | teamR == "Denver" | 
+           teamR == "Houston" | teamR == "LA Clippers") -> nbadf13
 
 nbadf13 %>%
   filter(Q4vF == "RR" | Q4vF == "RH") -> nbadf14
@@ -322,7 +326,6 @@ plot5 <- ggplot(df1, aes(x = quarter, y = win_pct)) +
            stat = "identity") + 
   labs(title = "Top 6 Teams on the Road", 
        subtitle = "Winning Percentages when Winning each Quarter",
-       caption = "\n2018-19 and 2019-20 regular season games that ended in regulation\n2020 'bubble' games excluded",
        x = "Quarter", 
        y = "Winning Percentage") + 
   geom_text(aes(x = quarter, y = win_pct, label = win_pct, 
@@ -330,7 +333,9 @@ plot5 <- ggplot(df1, aes(x = quarter, y = win_pct)) +
   theme(plot.title = element_text(face = "bold")) 
 
 nbadf3 %>%
-  filter(teamH == "Milwaukee" | teamH == "Toronto" | teamH == "Boston" | teamH == "Denver" | teamH == "Houston" | teamH == "LA Clippers") -> nbadf15
+  filter(teamH == "Milwaukee" | teamH == "Toronto" | 
+           teamH == "Boston" | teamH == "Denver" | 
+           teamH == "Houston" | teamH == "LA Clippers") -> nbadf15
 
 nbadf15 %>%
   filter(Q1vF == "HR" | Q1vF == "HH") -> nbadf16
@@ -342,7 +347,9 @@ tbl9$pct_total <- round(tbl9$pct_total, digits = 2)
 print(tbl9)
 
 nbadf4 %>% 
-  filter(teamH == "Milwaukee" | teamH == "Toronto" | teamH == "Boston" | teamH == "Denver" | teamH == "Houston" | teamH == "LA Clippers") -> nbadf17
+  filter(teamH == "Milwaukee" | teamH == "Toronto" | 
+           teamH == "Boston" | teamH == "Denver" | 
+           teamH == "Houston" | teamH == "LA Clippers") -> nbadf17
 
 nbadf17 %>% 
   filter(Q2vF == "HR" | Q2vF == "HH") -> nbadf18
@@ -354,7 +361,9 @@ tbl10$pct_total <- round(tbl10$pct_total, digits = 2)
 print(tbl10)
 
 nbadf5 %>% 
-  filter(teamH == "Milwaukee" | teamH == "Toronto" | teamH == "Boston" | teamH == "Denver" | teamH == "Houston" | teamH == "LA Clippers") -> nbadf19
+  filter(teamH == "Milwaukee" | teamH == "Toronto" | 
+           teamH == "Boston" | teamH == "Denver" | 
+           teamH == "Houston" | teamH == "LA Clippers") -> nbadf19
 
 nbadf19 %>% 
   filter(Q3vF == "HR" | Q3vF == "HH") -> nbadf20
@@ -366,7 +375,9 @@ tbl11$pct_total <- round(tbl11$pct_total, digits = 2)
 print(tbl11)
 
 nbadf6 %>% 
-  filter(teamH == "Milwaukee" | teamH == "Toronto" | teamH == "Boston" | teamH == "Denver" | teamH == "Houston" | teamH == "LA Clippers") -> nbadf21
+  filter(teamH == "Milwaukee" | teamH == "Toronto" | 
+           teamH == "Boston" | teamH == "Denver" | 
+           teamH == "Houston" | teamH == "LA Clippers") -> nbadf21
 
 nbadf21 %>% 
   filter(Q4vF == "HR" | Q4vF == "HH") -> nbadf22
@@ -387,7 +398,6 @@ plot6 <- ggplot(df2, aes(x = quarter, y = win_pct)) +
            stat = "identity") + 
   labs(title = "Top 6 Teams at Home", 
        subtitle = "Winning Percentages when Winning each Quarter",
-       caption = "\n2018-19 and 2019-20 regular season games that ended in regulation\n2020 'bubble' games excluded",
        x = "Quarter", 
        y = "Winning Percentage") + 
   geom_text(aes(x = quarter, y = win_pct, label = win_pct, 
@@ -397,7 +407,9 @@ plot6 <- ggplot(df2, aes(x = quarter, y = win_pct)) +
 plot5 + plot6 + plot_layout(ncol = 2)
 
 nbadf3 %>%
-  filter(teamR == "Minnesota" | teamR == "Phoenix" | teamR == "Atlanta" | teamR == "Chicago" | teamR == "Cleveland" | teamR == "New York") -> nbadf23
+  filter(teamR == "Minnesota" | teamR == "Phoenix" | 
+           teamR == "Atlanta" | teamR == "Chicago" | 
+           teamR == "Cleveland" | teamR == "New York") -> nbadf23
 
 nbadf23 %>%
   filter(Q1vF == "RR" | Q1vF == "RH") -> nbadf24
@@ -409,7 +421,9 @@ tbl13$pct_total <- round(tbl13$pct_total, digits = 2)
 print(tbl13)
 
 nbadf4 %>% 
-  filter(teamR == "Minnesota" | teamR == "Phoenix" | teamR == "Atlanta" | teamR == "Chicago" | teamR == "Cleveland" | teamR == "New York") -> nbadf25
+  filter(teamR == "Minnesota" | teamR == "Phoenix" | 
+           teamR == "Atlanta" | teamR == "Chicago" | 
+           teamR == "Cleveland" | teamR == "New York") -> nbadf25
 
 nbadf25 %>%
   filter(Q2vF == "RR" | Q2vF == "RH") -> nbadf26
@@ -421,7 +435,9 @@ tbl14$pct_total <- round(tbl14$pct_total, digits = 2)
 print(tbl14)
 
 nbadf5 %>%
-  filter(teamR == "Minnesota" | teamR == "Phoenix" | teamR == "Atlanta" | teamR == "Chicago" | teamR == "Cleveland" | teamR == "New York") -> nbadf27
+  filter(teamR == "Minnesota" | teamR == "Phoenix" | 
+           teamR == "Atlanta" | teamR == "Chicago" | 
+           teamR == "Cleveland" | teamR == "New York") -> nbadf27
 
 nbadf27 %>%
   filter(Q3vF == "RR" | Q3vF == "RH") -> nbadf28
@@ -433,7 +449,9 @@ tbl15$pct_total <- round(tbl15$pct_total, digits = 2)
 print(tbl15)
 
 nbadf6 %>% 
-  filter(teamR == "Minnesota" | teamR == "Phoenix" | teamR == "Atlanta" | teamR == "Chicago" | teamR == "Cleveland" | teamR == "New York") -> nbadf29
+  filter(teamR == "Minnesota" | teamR == "Phoenix" | 
+           teamR == "Atlanta" | teamR == "Chicago" | 
+           teamR == "Cleveland" | teamR == "New York") -> nbadf29
 
 nbadf29 %>%
   filter(Q4vF == "RR" | Q4vF == "RH") -> nbadf30
@@ -454,7 +472,6 @@ plot7 <- ggplot(df3, aes(x = quarter, y = win_pct)) +
            stat = "identity") + 
   labs(title = "Bottom 6 Teams on the Road", 
        subtitle = "Winning Percentages when Winning each Quarter",
-       caption = "\n2018-19 and 2019-20 regular season games that ended in regulation\n2020 'bubble' games excluded",
        x = "Quarter", 
        y = "Winning Percentage") + 
   geom_text(aes(x = quarter, y = win_pct, label = win_pct, 
@@ -462,7 +479,9 @@ plot7 <- ggplot(df3, aes(x = quarter, y = win_pct)) +
   theme(plot.title = element_text(face = "bold")) 
 
 nbadf3 %>% 
-  filter(teamH == "Minnesota" | teamH == "Phoenix" | teamH == "Atlanta" | teamH == "Chicago" | teamH == "Cleveland" | teamH == "New York") -> nbadf31
+  filter(teamH == "Minnesota" | teamH == "Phoenix" | 
+           teamH == "Atlanta" | teamH == "Chicago" | 
+           teamH == "Cleveland" | teamH == "New York") -> nbadf31
 
 nbadf31 %>%
   filter(Q1vF == "HR" | Q1vF == "HH") -> nbadf32
@@ -474,7 +493,9 @@ tbl17$pct_total <- round(tbl17$pct_total, digits = 2)
 print(tbl17)
 
 nbadf4 %>%
-  filter(teamH == "Minnesota" | teamH == "Phoenix" | teamH == "Atlanta" | teamH == "Chicago" | teamH == "Cleveland" | teamH == "New York") -> nbadf33
+  filter(teamH == "Minnesota" | teamH == "Phoenix" | 
+           teamH == "Atlanta" | teamH == "Chicago" | 
+           teamH == "Cleveland" | teamH == "New York") -> nbadf33
 
 nbadf33 %>% 
   filter(Q2vF == "HR" | Q2vF == "HH") -> nbadf34
@@ -486,7 +507,9 @@ tbl18$pct_total <- round(tbl18$pct_total, digits = 2)
 print(tbl18)
 
 nbadf5 %>% 
-  filter(teamH == "Minnesota" | teamH == "Phoenix" | teamH == "Atlanta" | teamH == "Chicago" | teamH == "Cleveland" | teamH == "New York") -> nbadf35
+  filter(teamH == "Minnesota" | teamH == "Phoenix" | 
+           teamH == "Atlanta" | teamH == "Chicago" | 
+           teamH == "Cleveland" | teamH == "New York") -> nbadf35
 
 nbadf35 %>%
   filter(Q3vF == "HR" | Q3vF == "HH") -> nbadf36
@@ -498,7 +521,9 @@ tbl19$pct_total <- round(tbl19$pct_total, digits = 2)
 print(tbl19)
 
 nbadf6 %>%
-  filter(teamH == "Minnesota" | teamH == "Phoenix" | teamH == "Atlanta" | teamH == "Chicago" | teamH == "Cleveland" | teamH == "New York") -> nbadf37
+  filter(teamH == "Minnesota" | teamH == "Phoenix" | 
+           teamH == "Atlanta" | teamH == "Chicago" | 
+           teamH == "Cleveland" | teamH == "New York") -> nbadf37
 
 nbadf37 %>%
   filter(Q4vF == "HR" | Q4vF == "HH") -> nbadf38
@@ -519,7 +544,6 @@ plot8 <- ggplot(df4, aes(x = quarter, y = win_pct)) +
            stat = "identity") + 
   labs(title = "Bottom 6 Teams at Home", 
        subtitle = "Winning Percentages when Winning each Quarter",
-       caption = "\n2018-19 and 2019-20 regular season games that ended in regulation\n2020 'bubble' games excluded",
        x = "Quarter", 
        y = "Winning Percentage") + 
   geom_text(aes(x = quarter, y = win_pct, label = win_pct, 

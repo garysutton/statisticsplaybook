@@ -74,7 +74,7 @@ print(MILy)
 MILp1 <- ggplot(MILx, aes(x = play_length2, y = avg, group = 1)) +
   geom_line(aes(y = avg), color = "darkgreen", size = 2) +
   geom_point(color = "wheat2", size = 3) +
-  labs(title = "Average Number of Points Scored per Second Increment",
+  labs(title = "Points Scored per Second Increment",
        subtitle = "2019-20 Milwaukee Bucks",
        caption = "regular season only",
        x = "Number of Seconds into Possession",
@@ -143,7 +143,7 @@ print(ATLy)
 ATLp1 <- ggplot(ATLx, aes(x = play_length2, y = avg, group = 1)) +
   geom_line(aes(y = avg), color = "red", size = 2) +
   geom_point(color = "black", size = 3) +
-  labs(title = "Average Number of Points Scored per Second Increment",
+  labs(title = "oints Scored per Second Increment",
        subtitle = "2019-20 Atlanta Hawks",
        caption = "regular season only",
        x = "Number of Seconds into Possession", 
@@ -208,7 +208,7 @@ print(CHAy)
 CHAp1 <- ggplot(CHAx, aes(x = play_length2, y = avg, group = 1)) +
   geom_line(aes(y = avg), color = "cyan3", size = 2) +
   geom_point(color = "black", size = 3) +
-  labs(title = "Average Number of Points Scored per Second Increment",
+  labs(title = "Points Scored per Second Increment",
        subtitle = "2019-20 Charlotte Hornets",
        caption = "regular season only",
        x = "Number of Seconds into Possession", 
@@ -269,7 +269,7 @@ print(NBAy)
 NBAp1 <- ggplot(NBAx, aes(x = play_length2, y = avg, group = 1)) +
   geom_line(aes(y = avg), color = "red", size = 2) +
   geom_point(color = "blue", size = 3) +
-  labs(title = "Average Number of Points Scored per Second Increment",
+  labs(title = "Points Scored per Second Increment",
        subtitle = "2019-20 NBA Regular Season (all teams)",
        x = "Number of Seconds into Possession", 
        y = "Average Number of Points Scored") +

@@ -14,7 +14,7 @@ cap %>%
 head(new_cap)
 
 breaks <- seq(-120000000, 120000000, 10000000)
-labels <- paste0(as.character(c(seq(120, 0, -10), seq(10, 120, 10))), "m")
+labels <- paste0(as.character(c(seq(120, 0, -10), seq(10, 120, 10))), "M")
 
 p1 <- ggplot(new_cap, aes(x = season, y = cap, fill = type)) +   
   geom_col(width = .6) +
@@ -25,8 +25,11 @@ p1 <- ggplot(new_cap, aes(x = season, y = cap, fill = type)) +
        x = "Season", 
        y = "Real or Adjusted Cap",
        caption = "salary cap was introduced prior to the 1984-85 season") +
-  scale_fill_discrete(name = "", labels = c("Adjusted Dollars", "Real Dollars")) +
-  theme(plot.title = element_text(face = "bold"))
+  scale_fill_discrete(name = "", 
+                      labels = c("Adjusted Dollars", "Real Dollars")) +
+  theme(plot.title = element_text(face = "bold")) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  theme(legend.position = "bottom")
 print(p1)
 
 records %>%
@@ -56,9 +59,11 @@ p2 <- ggplot(var_records, aes(x = Season, y = v_wins, group = 1)) +
   theme(plot.title = element_text(face = "bold")) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   geom_smooth(method = lm, color = "red", se = FALSE, 
-              data = var_records[as.character(var_records$Season) < "1984-85",]) +
+              data = var_records[as.character(var_records$Season) < 
+                                   "1984-85",]) +
   geom_smooth(method = lm, color = "red", se = FALSE, 
-              data = var_records[as.character(var_records$Season) > "1983-84",]) +
+              data = var_records[as.character(var_records$Season) > 
+                                   "1983-84",]) +
   annotate("rect", xmin = "1970-71", xmax = "1983-84",
            ymin = 0, ymax = 300, alpha = 0.1, fill = "orange") +
   annotate("rect", xmin = "1984-85", xmax = "1997-98",
@@ -84,9 +89,11 @@ p3 <- ggplot(sd_records, aes(x = Season, y = sd_wins, group = 1)) +
   theme(plot.title = element_text(face = "bold")) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   geom_smooth(method = lm, color = "red", se = FALSE, 
-              data = sd_records[as.character(sd_records$Season) < "1984-85",]) +
+              data = sd_records[as.character(sd_records$Season) < 
+                                  "1984-85",]) +
   geom_smooth(method = lm, color = "red", se = FALSE, 
-              data = sd_records[as.character(sd_records$Season) > "1983-84",]) +
+              data = sd_records[as.character(sd_records$Season) > 
+                                  "1983-84",]) +
   annotate("rect", xmin = "1970-71", xmax = "1983-84",
            ymin = 0, ymax = 20, alpha = 0.1, fill = "orange") +
   annotate("rect", xmin = "1984-85", xmax = "1997-98",
@@ -112,9 +119,11 @@ p4 <- ggplot(r_records, aes(x = Season, y = r_wins, group = 1)) +
   theme(plot.title = element_text(face = "bold")) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   geom_smooth(method = lm, color = "red", se = FALSE, 
-              data = r_records[as.character(r_records$Season) < "1984-85",]) +
+              data = r_records[as.character(r_records$Season) < 
+                                 "1984-85",]) +
   geom_smooth(method = lm, color = "red", se = FALSE, 
-              data = r_records[as.character(r_records$Season) > "1983-84",]) +
+              data = r_records[as.character(r_records$Season) > 
+                                 "1983-84",]) +
   annotate("rect", xmin = "1970-71", xmax = "1983-84",
     ymin = 0, ymax = 60, alpha = 0.1, fill = "orange") +
   annotate("rect", xmin = "1984-85", xmax = "1997-98",
@@ -138,7 +147,8 @@ tail(mad_records2, n = 3)
 p5 <- ggplot(mad_records2, aes(x = Season, y = mad_wins2, group = 1)) + 
   geom_line(aes(y = mad_wins2), color = "black", size = .5) + 
   geom_point(size = 5, color = "dodgerblue") +
-  labs(title = "Year-over-Year Mean Absolute Deviation in Regular Season Wins",
+  labs(title = 
+         "Year-over-Year Mean Absolute Deviation in Regular Season Wins",
        subtitle = "1970-98",
        x = "Season", 
        y = "Mean Absolute Deviation",
@@ -147,7 +157,8 @@ p5 <- ggplot(mad_records2, aes(x = Season, y = mad_wins2, group = 1)) +
   theme(plot.title = element_text(face = "bold")) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   geom_smooth(method = lm, color = "red", se = FALSE, 
-              data = mad_records2[as.character(mad_records2$Season) < "1984-85",]) +
+              data = mad_records2[as.character(mad_records2$Season) < 
+                                    "1984-85",]) +
   geom_smooth(method = lm, color = "red", se = FALSE, 
               data = mad_records2[as.character(mad_records2$Season) > "1983-84",]) +
   annotate("rect", xmin = "1970-71", xmax = "1983-84",
@@ -173,7 +184,8 @@ tail(mdad_records2, n = 3)
 p6 <- ggplot(mdad_records2, aes(x = Season, y = mdad_wins2, group = 1)) + 
   geom_line(aes(y = mdad_wins2), color = "black", size = .5) + 
   geom_point(size = 5, color = "dodgerblue") +
-  labs(title = "Year-over-Year Median Absolute Deviation in Regular Season Wins",
+  labs(title = 
+         "Year-over-Year Median Absolute Deviation in Regular Season Wins",
        subtitle = "1970-98",
        x = "Season", 
        y = "Median Absolute Deviation",
@@ -182,9 +194,11 @@ p6 <- ggplot(mdad_records2, aes(x = Season, y = mdad_wins2, group = 1)) +
   theme(plot.title = element_text(face = "bold")) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   geom_smooth(method = lm, color = "red", se = FALSE, 
-              data = mdad_records2[as.character(mdad_records2$Season) < "1984-85",]) +
+              data = mdad_records2[as.character(mdad_records2$Season) < 
+                                     "1984-85",]) +
   geom_smooth(method = lm, color = "red", se = FALSE, 
-              data = mdad_records2[as.character(mdad_records2$Season) > "1983-84",]) +
+              data = mdad_records2[as.character(mdad_records2$Season) >
+                                     "1983-84",]) +
   annotate("rect", xmin = "1970-71", xmax = "1983-84",
     ymin = 0, ymax = 14, alpha = 0.1, fill = "orange") +
   annotate("rect", xmin = "1984-85", xmax = "1997-98",
@@ -234,9 +248,11 @@ p7 <- ggplot(churn_tbl, aes(x = Season, y = n, group = 1)) +
   theme(plot.title = element_text(face = "bold")) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   geom_smooth(method = lm, color = "red", se = FALSE, 
-              data = churn_tbl[as.character(churn_tbl$Season) < "1984-85",]) +
+              data = churn_tbl[as.character(churn_tbl$Season) <
+                                 "1984-85",]) +
   geom_smooth(method = lm, color = "red", se = FALSE, 
-              data = churn_tbl[as.character(churn_tbl$Season) > "1983-84",]) +
+              data = churn_tbl[as.character(churn_tbl$Season) > 
+                                 "1983-84",]) +
   annotate("rect", xmin = "1971-72", xmax = "1983-84",
     ymin = 0, ymax = 6, alpha = 0.1, fill = "blue") +
   annotate("rect", xmin = "1984-85", xmax = "1997-98",

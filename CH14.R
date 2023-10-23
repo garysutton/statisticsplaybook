@@ -1,4 +1,5 @@
-packages <- c("tidyverse", "patchwork", "ggpubr", "pscl", "SciViews", "questionr", "caret", "pROC")
+packages <- c("tidyverse", "patchwork", "ggpubr", "pscl", "SciViews", 
+              "questionr", "caret", "pROC")
 
 lapply(packages, library, character.only = TRUE)
 
@@ -51,7 +52,8 @@ nba2010 <- read_csv("/Users/garysutton/Library/Mobile Documents/com~apple~CloudD
 nba2009 <- read_csv("/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/nba2009.csv")
 nba2008 <- read_csv("/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/nba2008.csv")
 
-nba <- rbind(nba2017, nba2016, nba2015, nba2014, nba2013, nba2012, nba2011, nba2010, nba2009, nba2008)
+nba <- rbind(nba2017, nba2016, nba2015, nba2014, nba2013, nba2012, 
+             nba2011, nba2010, nba2009, nba2008)
 
 dim(nba)
 
@@ -130,7 +132,8 @@ ggplot(nba_stats, aes(x = PTS)) +
              color = "black", size = .8) +
   labs(title = "Distribution of Points Scored per Game per Team",
        subtitle = "2008-17",
-       caption = "dashed line represents the mean\nsolid line represents the median",
+       caption = "dashed line represents the mean
+          solid line represents the median",
        x = "Average Points Scored per Game",
        y = "Frequency") +
   theme(plot.title = element_text(face = "bold"))
@@ -142,7 +145,7 @@ cor(nba_stats$z_wins, nba_stats$z_pts)
 
 p1 <- ggplot(nba_stats, aes(x = z_o_pts, y = z_wins)) + 
   geom_point() +
-  labs(title = "Correlation between Points Allowed and Wins (2008-17)",
+  labs(title = "Points Allowed vs. Wins (2008-17)",
        subtitle = "correlation coefficient = -0.58",
        x = "Points Allowed (standardized)", 
        y = "Wins (standardized)") + 
@@ -152,7 +155,7 @@ p1 <- ggplot(nba_stats, aes(x = z_o_pts, y = z_wins)) +
 
 p2 <- ggplot(nba_stats, aes(x = z_pts, y = z_wins)) + 
   geom_point() +
-  labs(title = "Correlation between Points Scored and Wins (2008-17)",
+  labs(title = "Points Scored vs. Wins (2008-17)",
        subtitle = "correlation coefficient = 0.53",
        x = "Points Scored (standardized)", 
        y = "Wins (standardized)") + 
@@ -164,14 +167,17 @@ p1 + p2 + plot_layout(ncol = 2)
 
 nba_stats %>%
   group_by(season) %>%
-  summarize(cor_dif = round(cor(PTS, wins) - abs(cor(O_PTS, z_wins)), digits = 2)) -> second_tibble
+  summarize(cor_dif = round(cor(PTS, wins) - abs(cor(O_PTS, z_wins)), 
+                            digits = 2)) -> second_tibble
 print(second_tibble)
 
 ggplot(second_tibble, aes(x = season, y = cor_dif)) +
-  geom_bar(stat = "identity", width = .7, color = "gold4", fill = "gold1") +
+  geom_bar(stat = "identity", width = .7, color = "gold4", 
+           fill = "gold1") +
   labs(title = "Annual Differences in Absolute Correlations",
        subtitle = "2008-17",
-       caption = "when negative, points allowed mattered more; when positive, points scored mattered more",
+       caption = "when negative, points allowed mattered more;
+          when positive, points scored mattered more",
        x = "Season", 
        y = "Absolute Correlation Difference") +
   geom_text(aes(label = cor_dif, y = cor_dif, fontface = "bold",
@@ -203,26 +209,26 @@ summary(nba_stats$pts_cat)
 
 p3 <- ggplot(nba_stats, aes(x = o_pts_cat, y = z_wins, fill = o_pts_cat)) +
   geom_boxplot(notch = TRUE, alpha = 0.5) +
-  labs(title = "Points Allowed versus Wins", 
+  labs(title = "Points Allowed vs. Wins", 
        subtitle = "2008-17",
        x = "Standardized Points Allowed Category", 
        y = "Standardized Regular Season Wins") +
   stat_summary(fun = mean, geom = "point", 
                shape = 20, size = 8, color = "white", fill = "white") + 
-  theme(legend.position = "right") +
+  theme(legend.position = "bottom") +
   scale_fill_discrete(name = "Points\nAllowed\nZ-Score", 
                       labels = c("< -1", "-1 to 0", "0 to 1","> 1")) +
   theme(plot.title = element_text(face = "bold")) 
 
 p4 <- ggplot(nba_stats, aes(x = pts_cat, y = z_wins, fill = pts_cat)) +
   geom_boxplot(notch = TRUE, alpha = 0.5) +
-  labs(title = "Points Scored versus Wins", 
+  labs(title = "Points Scored vs. Wins", 
        subtitle = "2008-17",
        x = "Standardized Points Scored Category", 
        y = "Standardized Regular Season Wins") +
   stat_summary(fun = mean, geom = "point", 
                shape = 20, size = 8, color = "white", fill = "white") + 
-  theme(legend.position = "right") +
+  theme(legend.position = "bottom") +
   scale_fill_discrete(name = "Points\nScored\nZ-Score", 
                       labels = c("< -1", "-1 to 0", "0 to 1", "> 1")) +
   theme(plot.title = element_text(face = "bold"))
@@ -284,7 +290,8 @@ predictions %>%
   rename(predicted_values = predicted_fit3) -> predictions
 
 predictions %>%
-  mutate(predicted_values2 = ifelse(predicted_values >= 0.50, 1, 0)) -> predictions
+  mutate(predicted_values2 = 
+           ifelse(predicted_values >= 0.50, 1, 0)) -> predictions
 
 confusion_matrix <- table(actuals$actual_values, predictions$predicted_values2)
 print(confusion_matrix)
@@ -320,9 +327,11 @@ predictions %>%
   rename(predicted_values = predicted_fit4) -> predictions
 
 predictions %>%
-  mutate(predicted_values2 = ifelse(predicted_values >= 0.50, 1, 0)) -> predictions
+  mutate(predicted_values2 = 
+           ifelse(predicted_values >= 0.50, 1, 0)) -> predictions
 
-confusion_matrix <- table(actuals$actual_values, predictions$predicted_values2)
+confusion_matrix <- table(actuals$actual_values, 
+                          predictions$predicted_values2)
 print(confusion_matrix)
 
 sensitivity(actuals$actual_values, predictions$predicted_values2)
@@ -348,8 +357,10 @@ df1 %>%
   select(-Team) -> df1
 
 df2 <- data.frame(season = as.factor(c(2008:2017)),
-                     PTS = c(94.0, 102.4, 101.1, 98.2, 97.3, 97.1, 106.3, 103.3, 104.8, 119.3),
-                     O_PTS = c(88.8, 95.2, 97.3, 92.4, 90.2, 90.7, 97.0, 95.5, 96.2, 105.8))
+                     PTS = c(94.0, 102.4, 101.1, 98.2, 97.3, 97.1, 
+                             106.3, 103.3, 104.8, 119.3),
+                     O_PTS = c(88.8, 95.2, 97.3, 92.4, 90.2, 90.7, 
+                               97.0, 95.5, 96.2, 105.8))
 
 df3 <- rbind(df1, df2)
 
@@ -359,14 +370,16 @@ print(df3)
 ggpaired(df3, x = "Season", y = "O_PTS",
          color = "Season", line.color = "gray", line.size = 0.4,
          palette = "aaas",
-         main = "Points Allowed Comparison: Regular Season versus Playoffs\nNBA Champions Only (2008-17)", 
+         main = "Points Allowed Comparison: Regular Season versus Playoffs
+            NBA Champions Only (2008-17)", 
          xlab = "",
          ylab = "Points Allowed per Game")
 
 ggpaired(df3, x = "Season", y = "PTS",
          color = "Season", line.color = "gray", line.size = 0.4,
          palette = "aaas",
-         main = "Points Scored Comparison: Regular Season versus Playoffs\nNBA Champions Only (2008-17)",
+         main = "Points Scored Comparison: Regular Season versus Playoffs
+            NBA Champions Only (2008-17)",
          xlab = "",
          ylab = "Points Scored per Game")
 
