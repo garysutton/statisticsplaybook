@@ -39,7 +39,7 @@ dim(df2)
 p2 <- ggviolin(df2, y = "games",
                color = "darkslategray1", fill = "salmon1",
                add = "boxplot", add.params = list(fill = "white"),
-               main = "Distribution of Games Played:\nAll Current and Past NBA Franchises",
+               main = "Distribution of Games Played:\nAll NBA Franchises",
                font.main = "bold",
                subtitle = "1946-2020", 
                xlab = "", 
@@ -51,7 +51,7 @@ p2 <- ggviolin(df2, y = "games",
 p3 <- ggviolin(df2, y = "wins",
                color = "darkslategray1", fill = "salmon1",
                add = "boxplot", add.params = list(fill = "white"),
-               main = "Distribution of Games Won:\nAll Current and Past NBA Franchises",
+               main = "Distribution of Games Won:\nAll NBA Franchises",
                font.main = "bold",
                subtitle = "1946-2020", 
                xlab = "", 
@@ -104,7 +104,7 @@ ggplot(aes(x = franchise, y = games)) +
   ylab("Games Played") +
   theme(plot.title = element_text(face = "bold"))   
 
-pareto.chart(df4$wins, 
+pareto.chart(df4$wins,  
              main = "Pareto Chart: Games Won (1946-2020)", 
              xlab = "NBA Franchises",
              col = heat.colors(length(df4$wins)),

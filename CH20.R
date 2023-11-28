@@ -65,7 +65,7 @@ sankeyNetwork(Links = links, Nodes = nodes,
               fontSize = 12, nodeWidth = 30)
 
 nodes <- data.frame('name' = c('modeling',
-                               'base', 'broom', 'car', 'caret', 'InformationValue', 'pscl', 'questionr',
+                               'base', 'broom', 'car', 'caret', 'pROC', 'pscl', 'questionr',
                                'SciViews', 'tree', 
                                'analysis of variance', 'linear regression', 
                                'logistic regression', 'regression tree',
@@ -183,7 +183,7 @@ sankeyNetwork(Links = links, Nodes = nodes,
               fontSize = 12, nodeWidth = 30)
 
 nodes <- data.frame("name" = c("summary statistics / visualization",
-                               "base", "DataExplorer", "GGally", "reshape2","SmartEDA", "sqldf",
+                               "Base", "DataExplorer", "GGally", "reshape2","SmartEDA", "sqldf",
                                "tableone", "tidyverse",
                                "automated eda", "manual eda",
                                "2", "5", "6", "10", "14", "17"))

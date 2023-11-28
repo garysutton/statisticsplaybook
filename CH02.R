@@ -104,7 +104,7 @@ print(p2)
 
 p3 <- ggplot(draft, aes(x = Year, y = WS)) + 
   geom_boxplot(color = "dodgerblue4", fill = "dodgerblue" ) +
-  labs(title = "Year-over_Year Win Shares Distribution of 
+  labs(title = "Year-over-Year Win Shares Distribution of 
        NBA First-Round Selections",
        x = "", 
        y = "Win Shares", 

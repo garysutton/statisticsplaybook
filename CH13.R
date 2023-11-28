@@ -122,7 +122,8 @@ ws_gini2 %>%
   ungroup(Tm, Year) -> ws_gini2
 
 ws_gini2 %>%
-  filter(Year == 1991 | Year == 1992 | Year == 1993 | Year == 1994) -> ws9194
+  filter(Year == 1991 | Year == 1992 | Year == 1993 | 
+           Year == 1994) -> ws9194
 head(ws9194)
 tail(ws9194)
 
@@ -191,13 +192,17 @@ ws_gini2 %>%
   pivot_wider(names_from = id, values_from = WS) -> ws_gini3
 head(ws_gini3)
 
-names(ws_gini3) = c("season_end", "team", "ws1", "ws2", "ws3", "ws4", "ws5", "ws6", "ws7", "ws8", "ws9", "ws10", "ws11", "ws12", "ws13", "ws14")
+names(ws_gini3) = c("season_end", "team", "ws1", "ws2", "ws3", "ws4", 
+                    "ws5", "ws6", "ws7", "ws8", "ws9", "ws10", "ws11", 
+                    "ws12", "ws13", "ws14")
 
 head(ws_gini3)
 
 ws_gini3 %>%
-  mutate(gini_index = round(ineq(c(ws1, ws2, ws3, ws4, ws5, ws6, ws7, ws8, ws9, ws10, ws11,
-                             ws12, ws13, ws14, na.rm = TRUE)), digits = 2)) -> ws_gini4
+  mutate(gini_index = round(ineq(c(ws1, ws2, ws3, ws4, ws5, ws6, ws7, 
+                                   ws8, ws9, ws10, ws11, ws12, ws13, 
+                                   ws14, na.rm = TRUE)), 
+                                   digits = 2)) -> ws_gini4
 head(ws_gini4)
 
 records <- read_csv("/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/records.csv")
@@ -251,7 +256,8 @@ ws_gini4$team <- recode(ws_gini4$team, "'ATL' = 'Atlanta Hawks';
                         'WAS' = 'Washington Wizards';
                         'WSB' = 'Washington Bullets'")
 
-left_join(ws_gini4, records, by = c("season_end", "team")) -> ws_gini_records
+left_join(ws_gini4, records, 
+          by = c("season_end", "team")) -> ws_gini_records
 
 glimpse(ws_gini_records) 
 
@@ -273,7 +279,8 @@ t.test(ws_giniX$gini_index, ws_giniY$gini_index)
 ws_giniXY <- rbind(ws_giniX, ws_giniY)
 ggplot(ws_giniXY, aes(x = champ, y = gini_index)) +
   geom_boxplot() +
-  labs(title = "Comparison of Gini Coefficients based on Season-End Disposition ",
+  labs(title = 
+         "Comparison of Gini Coefficients based on Season-End Disposition",
        x = "", 
        y = "Gini Coefficients", subtitle = "1991-2017") +
   geom_boxplot(color = "darkorange4", fill = "darkorange1") +
@@ -317,7 +324,8 @@ ws_giniAB <- rbind(ws_giniA, ws_giniB)
 mutate(ws_giniAB, win_pct = ifelse(pct >= 0.50, "y", "n")) -> ws_giniAB
 ggplot(ws_giniAB, aes(x = win_pct, y = gini_index)) + 
   geom_boxplot() +
-  labs(title = "Comparison of Gini Coefficients based on Regular Season Winning Percentage",
+  labs(title = 
+         "Comparison of Gini Coefficients based on Winning Percentage",
        subtitle = "1991-2017",
        x = "", 
        y = "Gini Coefficients") +
@@ -333,13 +341,14 @@ hedges_g(ws_giniA$gini_index, ws_giniB$gini_index)
 glass_delta(ws_giniA$gini_index, ws_giniB$gini_index)
 
 ws_gini_records %>%
-  mutate(ws_gini_band = case_when(gini_index >= .50 ~ ">0.50",
-                                  gini_index >= .45 & gini_index < .50 ~ ">0.45",
-                                  gini_index >= .40 & gini_index < .45 ~ ">0.40",
-                                  gini_index >= .35 & gini_index < .40 ~ ">0.35",
-                                  gini_index >= .30 & gini_index < .35 ~ ">0.30",
-                                  gini_index >= .25 & gini_index < .30 ~ ">0.25",
-                                  gini_index < .25 ~ "<0.25")) -> ws_gini_records
+  mutate(ws_gini_band = 
+           case_when(gini_index >= .50 ~ ">0.50",
+                     gini_index >= .45 & gini_index < .50 ~ ">0.45",
+                     gini_index >= .40 & gini_index < .45 ~ ">0.40",
+                     gini_index >= .35 & gini_index < .40 ~ ">0.35",
+                     gini_index >= .30 & gini_index < .35 ~ ">0.30",
+                     gini_index >= .25 & gini_index < .30 ~ ">0.25",
+                     gini_index < .25 ~ "<0.25")) -> ws_gini_records
 ws_gini_records$ws_gini_band <- as.factor(ws_gini_records$ws_gini_band)
 head(ws_gini_records, n = 3)
 

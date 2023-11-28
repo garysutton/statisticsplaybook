@@ -3,6 +3,8 @@ library(runner)
 
 ft <- read_csv("/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/pbp.csv")
 
+ft <- read_csv("pbp.csv")
+
 ft %>%
   select(date, event_type, player, points, result, type) -> ft
 
@@ -27,7 +29,8 @@ df <- data.frame(prior_successes, independent_trials)
 print(df)
 
 df %>%
-  mutate(laplace = (prior_successes + 1) / (independent_trials + 2) * 100) -> df
+  mutate(laplace = (prior_successes + 1) / 
+           (independent_trials + 2) * 100) -> df
   print(df)
 
 p1 <- ggplot(df, aes(x = independent_trials, y = laplace, group = 1)) + 
@@ -62,7 +65,8 @@ dim(giannis_final)
 giannis_final %>%
   filter(lag(points) == 1) %>%
   group_by(streak) %>%
-  summarize(makes = sum(points == 1), misses = sum(points == 0)) -> giannis_tbl1
+  summarize(makes = sum(points == 1), 
+            misses = sum(points == 0)) -> giannis_tbl1
 print(giannis_tbl1)
 
 giannis_tbl1 %>%
@@ -77,12 +81,14 @@ p2 <- ggplot(giannis_tbl2, aes(x = streak, y = pct, group = 1)) +
        x = "Consecutive Makes (Streak)", 
        y = "Free Throw Shooting Percentage", 
        caption = "2019-20 regular season and postseason\n
-              Antetokounmpo shot 62.5% from the line during the regular season and postseason combined") +
+              Antetokounmpo shot 62.5% from the line during
+       the regular season and postseason combined") +
   scale_x_continuous(breaks = seq(0, 12, 1)) +
   theme(plot.title = element_text(face = "bold")) 
 print(p2)
 
-coin_flips <- sample(x = c(0, 1), size = 700, prob = c(0.5, 0.5), replace = TRUE)
+coin_flips <- sample(x = c(0, 1), size = 700, prob = c(0.5, 0.5), 
+                     replace = TRUE)
 coin_flips <- as.data.frame(coin_flips)
 colnames(coin_flips) <- c("heads_tails")
 
@@ -113,7 +119,8 @@ dim(randle_final)
 randle_final %>%
   filter(lag(points) == 1) %>%
   group_by(streak) %>%
-  summarize(makes = sum(points == 1), misses = sum(points == 0)) -> randle_tbl1
+  summarize(makes = sum(points == 1), 
+            misses = sum(points == 0)) -> randle_tbl1
 print(randle_tbl1)
 
 randle_tbl1 %>%
@@ -128,7 +135,8 @@ p3 <- ggplot(randle_tbl2, aes(x = streak, y = pct, group = 1)) +
        x = "Consecutive Makes (Streak)", 
        y = "Free Throw Shooting Percentage", 
        caption = "2019-20 regular season and postseason\n
-                  Randle shot 73.4% from the line during the regular season") +
+                  Randle shot 73.4% from the line during
+       the regular season") +
   scale_x_continuous(breaks = seq(0, 8, 1)) +
   theme(plot.title = element_text(face = "bold")) 
 print(p3)
@@ -153,7 +161,8 @@ dim(harden_final)
 harden_final %>%
   filter(lag(points) == 1) %>%
   group_by(streak) %>%
-  summarize(makes = sum(points == 1), misses = sum(points == 0)) -> harden_tbl1
+  summarize(makes = sum(points == 1), 
+            misses = sum(points == 0)) -> harden_tbl1
 print(harden_tbl1)
 
 harden_tbl1 %>%
@@ -163,11 +172,13 @@ print(harden_tbl2)
 p4 <- ggplot(harden_tbl2, aes(x = streak, y = pct, group = 1)) + 
   geom_line(aes(y = pct), color = "steelblue", size = 1.5) +
   geom_point(size = 3, color = "steelblue") +
-  labs(title = "James Harden", subtitle = "Free Throw Percentage Following Consecutive Makes", 
+  labs(title = "James Harden", 
+       subtitle = "Free Throw Percentage Following Consecutive Makes", 
        x = "Consecutive Makes (Streak)", 
        y = "Free Throw Shooting Percentage", 
        caption = "2019-20 regular season and postseason\n
-                  Harden shot 86.4% from the line during the regular season and postseason combined") +
+                  Harden shot 86.4% from the line during
+       the regular season and postseason combined") +
   scale_x_continuous(breaks = seq(0, 23, 1)) +
   theme(plot.title = element_text(face = "bold")) 
 print(p4)
@@ -185,7 +196,8 @@ ft_final %>%
 ft_final %>% 
   filter(lag(points) == 1) %>%
   group_by(streak) %>%
-  summarize(makes = sum(points == 1), misses = sum(points == 0)) -> ft_tbl1
+  summarize(makes = sum(points == 1), 
+            misses = sum(points == 0)) -> ft_tbl1
 print(ft_tbl1)
 
 ft_tbl1 %>%
@@ -202,7 +214,8 @@ p5 <- ggplot(ft_tbl2, aes(x = streak, y = pct, group = 1)) +
        caption = "2019-20 regular season and postseason") +
   scale_x_continuous(breaks = seq(0, 23, 1)) +
   theme(plot.title = element_text(face = "bold")) +
-  annotation_custom(ggplotGrob(p1), xmin = 1, xmax = 11, ymin = 89, ymax = 101)
+  annotation_custom(ggplotGrob(p1), xmin = 1, xmax = 11, 
+                    ymin = 89, ymax = 101)
 print(p5)
 
 

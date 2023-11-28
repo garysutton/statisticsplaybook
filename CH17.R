@@ -19,8 +19,9 @@ oddsdf1 %>%
 
 roadodds %>%
   rename(ID = GAME_ID, date = DATE, teamR = TEAM, venueR = VENUE,        
-         ptsR = PTS, openspreadR = OPENING_SPREAD, opentotal = OPENING_TOTAL,   
-         closespreadR = CLOSING_SPREAD, closetotal = CLOSING_TOTAL) -> roadodds
+         ptsR = PTS, openspreadR = OPENING_SPREAD, 
+         opentotal = OPENING_TOTAL, closespreadR = CLOSING_SPREAD,
+         closetotal = CLOSING_TOTAL) -> roadodds
 
 oddsdf1 %>%
   filter(VENUE == "H") -> homeodds
@@ -30,7 +31,8 @@ homeodds %>%
 
 homeodds %>%
   rename(teamH = TEAM, venueH = VENUE, ptsH = PTS,                
-         openspreadH = OPENING_SPREAD, closespreadH = CLOSING_SPREAD) -> homeodds
+         openspreadH = OPENING_SPREAD, 
+         closespreadH = CLOSING_SPREAD) -> homeodds
 
 oddsdf2 <- cbind(roadodds, homeodds)
 
@@ -67,7 +69,8 @@ options(scipen = 999)
 summary(tableOne)
 
 oddsdf2 %>%
-  select(teamR, venueR, ptsR, opentotal, closetotal, teamH, venueH, ptsH, month2) -> oddsdf3
+  select(teamR, venueR, ptsR, opentotal, closetotal, teamH, venueH,
+         ptsH, month2) -> oddsdf3
 
 oddsdf3 %>%
   mutate(ptsT = ptsR + ptsH) -> oddsdf3
@@ -86,9 +89,13 @@ oddsdf3 %>%
 oddsdf3$totalmove <- as.factor(oddsdf3$totalmove)
 
 oddsdf3 %>%
-  mutate(versusPTS = case_when(diff_ptsT_opentotal > diff_ptsT_closetotal ~ "closetotal",
-                               diff_ptsT_closetotal > diff_ptsT_opentotal ~ "opentotal",
-                               diff_ptsT_opentotal == diff_ptsT_closetotal ~ "same")) -> oddsdf3
+  mutate(versusPTS = 
+           case_when(diff_ptsT_opentotal > 
+                       diff_ptsT_closetotal ~ "closetotal",
+                     diff_ptsT_closetotal > 
+                       diff_ptsT_opentotal ~ "opentotal",
+                     diff_ptsT_opentotal == 
+                       diff_ptsT_closetotal ~ "same")) -> oddsdf3
 
 oddsdf3$versusPTS <- factor(oddsdf3$versusPTS)
 
@@ -134,9 +141,12 @@ oddsdf4 %>%
   mutate(diff_margin_closespreadH = abs(margin - closespreadH)) -> oddsdf4
 
 oddsdf4 %>%
-  mutate(spreadmove = case_when(abs(closespreadH) > abs(openspreadH) ~ "up",
-                                abs(closespreadH) < abs(openspreadH) ~ "down",
-                                abs(closespreadH) == abs(openspreadH) ~ "same")) -> oddsdf4
+  mutate(spreadmove = case_when(abs(closespreadH) > 
+                                  abs(openspreadH) ~ "up",
+                                abs(closespreadH) < 
+                                  abs(openspreadH) ~ "down",
+                                abs(closespreadH) == 
+                                  abs(openspreadH) ~ "same")) -> oddsdf4
 
 oddsdf4$spreadmove <- factor(oddsdf4$spreadmove)
 
@@ -180,7 +190,8 @@ oddsdf3 %>%
 p1 <- ggplot(tblA, aes(x = sum, y = total, fill = sum)) + 
   geom_bar(stat = "identity") +
   geom_text(aes(label = total), vjust = -0.2, fontface = "bold") +
-  labs(title = "Opening Total and Closing Total Performance versus Combined Points", 
+  labs(title = 
+         "Opening Total and Closing Total Performance vs. Combined Points", 
        subtitle = "Closing Total performed ~10% better than Opening Total",
        caption = "2018-19 Regular Season",
        x = "",
@@ -207,8 +218,10 @@ p2 <- ggplot(tblB, aes(x = sum, y = total, fill = sum))+
   geom_bar(stat = "identity") +
   facet_wrap(~totalmove) +
   geom_text(aes(label = total), vjust = -0.2, fontface = "bold") +
-  labs(title = "Opening Total and Closing Total Performance by O/U Movement", 
-       subtitle = "Closing Total performed ~10% better than Opening Total...regardless of movement",
+  labs(title = 
+         "Opening Total and Closing Total Performance by O/U Movement", 
+       subtitle = 
+         "Closing Total performed ~10% better than Opening Total",
        caption = "2018-19 Regular Season",
        x = "",
        y = "Counts") +
@@ -232,14 +245,19 @@ p3 <-ggplot(tblC, aes(x = month2, y = total,
   geom_bar(position = "dodge", stat = "identity") +
   geom_text(aes(label = total), position = position_dodge(width = 0.9), 
             vjust = -0.2, fontface = "bold") +
-  labs(title = "Month-over-Month Opening Total and Closing Total Performance", 
+  labs(title = 
+         "Month-over-Month Opening Total and Closing Total Performance", 
        subtitle = "Closing Total beat Opening Total in 4 of 7 Months",
        caption = "2018-19 Regular Season",
        x = "Month",
        y = "Counts") +
   ylim(0, 120) +
-  scale_fill_discrete(name = "", labels = c("Opening Total", "Closing Total")) +
-  scale_x_discrete(labels = c("1" = "October", "2" = "November",            "3" = "December", "4" = "January", "5" = "February", "6" = "March",               "7" = "April")) +
+  scale_fill_discrete(name = "", 
+                      labels = c("Opening Total", "Closing Total")) +
+  scale_x_discrete(labels = c("1" = "October", "2" = "November",
+                              "3" = "December", "4" = "January", 
+                              "5" = "February", "6" = "March", 
+                              "7" = "April")) +
   theme(legend.position = "bottom") +
   theme(plot.title = element_text(face = "bold")) 
 print(p3)
@@ -255,7 +273,8 @@ p4 <- ggplot(tblD, aes(x = avg, y = value, fill = avg)) +
   geom_col() +
   geom_text(aes(label = round(value, 2)), vjust = -0.2,
             fontface = "bold") +
-  labs(title = "Average Variances between Opening Total and Closing Total versus Combined Points", 
+  labs(title = 
+         "Variances: Opening and Closing Totals vs. Combined Points",
        subtitle = "Closing Total performed ~2% better than Opening Total",
        caption = "2018-19 Regular Season",
        x = "",
@@ -281,8 +300,10 @@ p5 <- ggplot(tblE, aes(x = avg, y = value, fill = avg)) +
   facet_wrap(~totalmove) +
   geom_text(aes(label = round(value, 2)), vjust = 1.5,
             fontface = "bold") +
-  labs(title = "Opening Total and Closing Total Performance by O/U Movement", 
-       subtitle = "Closing Total performed ~2% better than Opening Total...regardless of movement",
+  labs(title = 
+         "Opening Total and Closing Total Performance by O/U Movement", 
+       subtitle = 
+         "Closing Total performed ~2% better than Opening Total",
        caption = "2018-19 Regular Season",
        x = "",
        y = "Average Variance from Combined Points") +
@@ -304,23 +325,33 @@ p6 <-ggplot(tblF, aes(x = month2, y = value,
                       fill = factor(avg, levels = c("AVG1", "AVG2")))) + 
   geom_bar(position = position_dodge(width = 0.5), stat = "identity") +
   geom_text(aes(label = round(value, 0)), 
-            position = position_dodge(width = 0.5), vjust = -0.2, fontface = "bold") +
-  labs(title = "Month-over-Month Opening Total and Closing Total Performance", 
-       subtitle = "Closing Total beat or equaled Opening Total in 7 of 7 Months",
+            position = position_dodge(width = 0.5), vjust = -0.2, 
+            fontface = "bold") +
+  labs(title = 
+         "Month-over-Month Opening Total and Closing Total Performance", 
+       subtitle = 
+         "Closing Total beat or equaled Opening Total in 7 of 7 Months",
        caption = "2018-19 Regular Season",
        x = "Month",
        y = "Average Variance from Combined Points") +
   ylim(0,18) +
-  scale_fill_discrete(name = "", labels = c("Opening Total", "Closing Total")) +
-  scale_x_discrete(labels = c("1" = "October", "2" = "November",           "3" = "December", "4" = "January", "5" = "February", "6" = "March",          "7" = "April")) +
+  scale_fill_discrete(name = "", labels = c("Opening Total", 
+                                            "Closing Total")) +
+  scale_x_discrete(labels = c("1" = "October", "2" = "November",
+                              "3" = "December", "4" = "January", 
+                              "5" = "February", "6" = "March",          
+                              "7" = "April")) +
   theme(legend.position = "bottom") +
   theme(plot.title = element_text(face = "bold")) 
 print(p6)
 
 oddsdf4 %>%
-  summarize(SUM1 = sum(diff_margin_openspreadH > diff_margin_closespreadH),
-            SUM2 = sum(diff_margin_closespreadH > diff_margin_openspreadH),
-            SUM3 = sum(diff_margin_openspreadH == diff_margin_closespreadH)) %>%
+  summarize(SUM1 = sum(diff_margin_openspreadH > 
+                         diff_margin_closespreadH),
+            SUM2 = sum(diff_margin_closespreadH >
+                         diff_margin_openspreadH),
+            SUM3 = sum(diff_margin_openspreadH == 
+                         diff_margin_closespreadH)) %>%
   pivot_longer(cols = c("SUM1", "SUM2", "SUM3"),
                names_to = "sum",
                values_to = "total") -> tblG
@@ -328,9 +359,12 @@ print(tblG)
 
 oddsdf4 %>%
   group_by(spreadmove) %>%
-  summarize(SUM1 = sum(diff_margin_closespreadH > diff_margin_openspreadH),
-            SUM2 = sum(diff_margin_openspreadH > diff_margin_closespreadH),
-            SUM3 = sum(diff_margin_openspreadH == diff_margin_closespreadH)) %>%
+  summarize(SUM1 = sum(diff_margin_closespreadH > 
+                         diff_margin_openspreadH),
+            SUM2 = sum(diff_margin_openspreadH > 
+                         diff_margin_closespreadH),
+            SUM3 = sum(diff_margin_openspreadH == 
+                         diff_margin_closespreadH)) %>%
   pivot_longer(cols = c("SUM1", "SUM2", "SUM3"),
                names_to = "sum",
                values_to = "total") %>%
@@ -339,8 +373,10 @@ print(tblH)
 
 oddsdf4 %>%
   group_by(month2) %>%
-  summarize(SUM1 = sum(diff_margin_openspreadH < diff_margin_closespreadH),
-            SUM2 = sum(diff_margin_closespreadH < diff_margin_openspreadH)) %>%
+  summarize(SUM1 = sum(diff_margin_openspreadH < 
+                         diff_margin_closespreadH),
+            SUM2 = sum(diff_margin_closespreadH < 
+                         diff_margin_openspreadH)) %>%
   pivot_longer(cols = c("SUM1", "SUM2"),
                names_to = "sum",
                values_to = "total") -> tblI

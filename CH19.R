@@ -66,7 +66,8 @@ dat2 %>%
 
 dat2$PPG <- as.numeric(dat2$PPG)
 
-dat2$Year_Player <- paste0(as.character(dat2$Year)," ", as.character(dat2$Player))
+dat2$Year_Player <- paste0(as.character(dat2$Year)," ", 
+                           as.character(dat2$Player))
 
 head(dat2, n = 3)
 tail(dat2, n = 3)
@@ -158,7 +159,8 @@ head(dat6b, n = 3)
 tail(dat6b, n = 3)
 
 p4 <- ggplot(dat6b, aes(x = Year_Player, y = c_ppg)) + 
-  geom_bar(stat = "identity", color = "aquamarine4", fill = "aquamarine4") +
+  geom_bar(stat = "identity", color = "aquamarine4", 
+           fill = "aquamarine4") +
   geom_text(aes(label = c_ppg), 
             position = position_dodge(width = 0.8), vjust = -0.3,
             fontface = "bold", size = 2) +

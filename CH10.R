@@ -185,9 +185,9 @@ p3 <- ggplot(tbl1, aes(x = year1, y = cor, group = 1)) +
        y = "Correlation Coefficient") +
   geom_smooth(method = lm, color = "blue", se = FALSE) +
   geom_smooth(method = lm, color = "purple", se = FALSE,
-            data = tbl1[as.numeric(tbl1$year1) < 07,]) +
+            data = tbl1[as.numeric(tbl1$year1) < 08,]) +
   geom_smooth(method = lm, color = "red", se = FALSE,
-            data = tbl1[as.numeric(tbl1$year1) > 05,]) +
+            data = tbl1[as.numeric(tbl1$year1) > 06,]) +
   theme(plot.title = element_text(face = "bold")) +
   geom_segment(aes(x = 10,
                    y = 0.5,
@@ -202,21 +202,21 @@ p3 <- ggplot(tbl1, aes(x = year1, y = cor, group = 1)) +
                    yend = 0.34),
                arrow = arrow(length = unit(0.3, "cm"))) +
   annotate("text", x = 6.3, y = 0.34, 
-           label = "Trend between 2000 and 2006", size = 3) +
+           label = "Trend between\n2000 and 2006", size = 3) +
   geom_segment(aes(x = 11.5,
                    y = 0.24,
                    xend = 11.5,
                    yend = 0.29),
                arrow = arrow(length = unit(0.3, "cm"))) +
   annotate("text", x = 11.5, y = 0.22, 
-           label = "Trend between 2006 and 2017", size = 3) +
+           label = "Trend between\n2006 and 2017", size = 3) +
   geom_segment(aes(x = 17.5,
                    y = 0.31,
                    xend = 17.5,
                    yend = 0.36),
                arrow = arrow(length = unit(0.3, "cm"))) +
   annotate("text", x = 17.5, y = 0.27, 
-           label = "Trend\nbetween\n2000 and 2017", size = 3)
+           label = "Trend\nbetween\n2000 and\n2017", size = 3)
 print(p3)
 
 salaries2000 <- select(salaries, Team, s2000, pc2000)

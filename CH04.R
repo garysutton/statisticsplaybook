@@ -6,8 +6,8 @@ library(lpSolve)
 # mult-line example continued: tidyverse also includes readr
 library(tidyverse)
 
-# scales package is part of tidyverse, but it’s best to load this as a      
-# standalone package
+# scales package is part of tidyverse, but it’s best to load
+# this as a standalone package
 library(scales)
 
 # we use the patchwork package to bundle multiple plots into one object
@@ -80,7 +80,7 @@ p3 <- ggplot(free_agents, aes(x = age)) +
              color = "blue", linetype = "longdash", size = .8) +
   labs(title = "Age Distribution", subtitle = "Shortlisted Free Agents",
        x = "Age", y = "Density",
-       caption = "Player ages are real; source: Sportrac") +
+       caption = "Player ages are real; source: Spotrac") +
   theme(plot.title = element_text(face = "bold")) +
   annotate("text", x = 30.2, 
            y = .04, label = "Mean", color = "black",
@@ -120,7 +120,7 @@ p6 <- ggplot(free_agents, aes(x = position1, y = age)) +
        subtitle = "Shortlisted Free Agents",
        x = "Position", 
        y = "Age", 
-       caption = "Player ages are real; source: Sportrac") + 
+       caption = "Player ages are real; source: Spotrac") + 
   stat_summary(fun = mean, geom = "point",
                shape = 20, size = 8, color = "white", fill = "white") + 
   theme(plot.title = element_text(face = "bold")) 
@@ -173,7 +173,8 @@ print(p8)
 
 head(free_agents_sort <- arrange(free_agents, position2))
 
-head(free_agents_sort <- select(free_agents_sort, player, age, position2, annual_salary, win_shares))
+head(free_agents_sort <- select(free_agents_sort, player, age, 
+                                position2, annual_salary, win_shares))
 
 free_agents_sort$centers = c(1,1,1,1,0,0,0,0,0,0,
                              0,0,0,0,0,0,0,0,0,0,0,0,0,0) 
@@ -236,7 +237,8 @@ co_object <-
      objective = free_agents_sort$win_shares,
      direction = "max",
      const.rhs = c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 90000000, 150), 
-     const.dir = c("<=", ">=","<=", ">=", "<=", ">=", "<=", ">=", "<=", ">=", "<=", "<=", "<="), 
+     const.dir = c("<=", ">=","<=", ">=", "<=", ">=", 
+                   "<=", ">=", "<=", ">=", "<=", "<=", "<="), 
      int.vec = 1:24, all.bin = TRUE)
 print(df <- select(free_agents_sort[as.logical(co_object$solution),], 1:5))
 

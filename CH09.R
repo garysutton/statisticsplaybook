@@ -31,7 +31,8 @@ mydata <- NBAboxscores
 dim(mydata)
 
 mydata %>%
-  select(teamLoc, teamRslt, teamDayOff, opptLoc, opptRslt, opptDayOff) -> mydata
+  select(teamLoc, teamRslt, teamDayOff, opptLoc, opptRslt, 
+         opptDayOff) -> mydata
 head(mydata) 
 tail(mydata)
 
@@ -77,9 +78,11 @@ sum(finaldf$n)
 ggplot(data = finaldf, aes(x = n, y = teamLoc, fill = teamLoc)) +
   geom_bar(stat = "identity") +
   facet_wrap(teamDayOff~opptDayOff) +
-  labs(title = "Home and Away Win Totals Broken Down by Days Off Permutations", 
+  labs(title = 
+         "Home and Away Win Totals Broken Down by Days Off Permutations", 
        subtitle = "2012-13 to 2017-18 Regular Seasons", 
-       caption = "Top number in each panel represent home team prior days off\nBottom number in each panel represents away team prior days off",
+       caption = "Top Numbers: Home team prior days off
+       Bottom Numbers: Away team prior days off",
        x = "Win Totals",
        y = "") +
   xlim(0,1500) +
@@ -92,24 +95,30 @@ finaldf %>%
   group_by(teamLoc) %>%
   summarize(wins = sum(n))
 
-sqldf("select SUM(n) FROM finaldf WHERE teamLoc ='Home' and teamDayOff = opptDayOff")
-sqldf("select SUM(n) FROM finaldf WHERE teamLoc ='Away' and teamDayOff = opptDayOff")
+sqldf("select SUM(n) FROM finaldf WHERE teamLoc ='Home' and 
+      teamDayOff = opptDayOff")
+sqldf("select SUM(n) FROM finaldf WHERE teamLoc ='Away' 
+      and teamDayOff = opptDayOff")
 
 finaldf %>%
   filter(as.numeric(teamDayOff) > as.numeric(opptDayOff)) %>%
   group_by(teamLoc) %>%
   summarize(wins = sum(n))
 
-sqldf("select SUM(n) FROM finaldf WHERE teamLoc ='Home' and teamDayOff > opptDayOff")
-sqldf("select SUM(n) FROM finaldf WHERE teamLoc ='Away' and teamDayOff > opptDayOff")
+sqldf("select SUM(n) FROM finaldf WHERE teamLoc ='Home' 
+      and teamDayOff > opptDayOff")
+sqldf("select SUM(n) FROM finaldf WHERE teamLoc ='Away' 
+      and teamDayOff > opptDayOff")
 
 finaldf %>%
   filter(as.numeric(teamDayOff) < as.numeric(opptDayOff)) %>%
   group_by(teamLoc) %>%
   summarize(wins = sum(n))
 
-sqldf("select SUM(n) FROM finaldf WHERE teamLoc ='Home' and teamDayOff < opptDayOff")
-sqldf("select SUM(n) FROM finaldf WHERE teamLoc ='Away' and teamDayOff < opptDayOff")
+sqldf("select SUM(n) FROM finaldf WHERE teamLoc ='Home' 
+      and teamDayOff < opptDayOff")
+sqldf("select SUM(n) FROM finaldf WHERE teamLoc ='Away' 
+      and teamDayOff < opptDayOff")
 
 chisq_table <- matrix(c(1552, 545, 1955, 1432, 717, 990), 
                       ncol = 2, byrow = TRUE)

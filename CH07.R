@@ -1,4 +1,3 @@
-
 library(tidyverse)
 library(ggpubr)
 library(sqldf)
@@ -8,6 +7,9 @@ library(patchwork)
 df1 <- read_csv("/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/nba_boxscore_1819.csv")
 df2 <- read_csv("/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/nba_boxscore_1920.csv")
 
+df1 <- read_csv("/nba_boxscore_1819.csv")
+df2 <- read_csv("nba_boxscore_1920.csv")
+
 df1 %>%
   filter(VENUE == "R") -> df3
 
@@ -15,8 +17,8 @@ df3 %>%
   select(DATASET, TEAM, VENUE, FT, FTA, PF) -> df3
 
 df3 %>% 
-  rename(dataset = DATASET, teamR = TEAM, venueR = VENUE, ftR = FT, ftaR = FTA,
-               pfR = PF) -> df3
+  rename(dataset = DATASET, teamR = TEAM, venueR = VENUE, ftR = FT, 
+         ftaR = FTA, pfR = PF) -> df3
 
 df3$dataset <- as.factor(df3$dataset)
 df3$teamR <- as.factor(df3$teamR)
@@ -123,6 +125,7 @@ temp3 %>%
   pivot_longer(cols = c(pfR, pfH),
                names_to = "team",
                values_to = "fouls") -> temp3
+head(temp3)
 
 temp3.text <- c("Home Team", "Road Team")
 p3 <- ggplot(temp3, aes(x = team, y = fouls, fill = team)) + 
@@ -257,7 +260,8 @@ p6 <- ggplot(temp6, aes(x = team, y = ftattempts, fill = team)) +
 p5 + p6 + plot_layout(ncol = 2)
 
 fouls1920 %>% 
-  filter(dataset == "NBA 2019-2020 Regular Season" & gameID >= 21901231) -> fouls1920b
+  filter(dataset == "NBA 2019-2020 Regular Season" & 
+           gameID >= 21901231) -> fouls1920b
 
 sum(fouls1920b$pfR) - sum(fouls1920b$pfH)  
 mean(fouls1920b$pfR) - mean(fouls1920b$pfH) 

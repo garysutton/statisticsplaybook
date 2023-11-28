@@ -31,15 +31,18 @@ summary(gini, maxsum = 40)
 
 sqldf("SELECT * FROM gini WHERE team == ''")
 
-sqldf("SELECT * FROM gini WHERE team == 'Boston Celtics' AND season_end == 1987")
-sqldf("SELECT * FROM gini WHERE team == 'Los Angeles Lakers' AND season_end == 1990")
+sqldf("SELECT * FROM gini WHERE team == 'Boston Celtics' AND 
+      season_end == 1987")
+sqldf("SELECT * FROM gini WHERE team == 'Los Angeles Lakers' AND 
+      season_end == 1990")
 
 gini %>%
   filter(team == "Boston Celtics" & season_end == 1987)
 gini %>%
   filter(team == "Los Angeles Lakers" & season_end == 1990)
 
-gini[!(gini$season_end %in% c(1985, 1986, 1987, 1988, 1989, 1990)),] -> gini3
+gini[!(gini$season_end %in% c(1985, 1986, 1987, 1988, 
+                              1989, 1990)),] -> gini3
 
 dim(gini3)
 
@@ -49,11 +52,15 @@ gini3 %>%
   mutate(rank = rank(-salary, ties.method = "first")) %>%
   filter(rank <= 14) -> gini4
 
-sqldf("SELECT * FROM gini3 WHERE season_end = 2012 AND team = 'Denver Nuggets'")
-sqldf("SELECT * FROM gini4 WHERE season_end = 2012 AND team = 'Denver Nuggets'")
+sqldf("SELECT * FROM gini3 WHERE season_end = 2012 AND 
+      team = 'Denver Nuggets'")
+sqldf("SELECT * FROM gini4 WHERE season_end = 2012 AND 
+      team = 'Denver Nuggets'")
 
-sqldf("SELECT * FROM gini3 WHERE season_end = 2018 AND team = 'Chicago Bulls'")
-sqldf("SELECT * FROM gini4 WHERE season_end = 2018 AND team = 'Chicago Bulls'")
+sqldf("SELECT * FROM gini3 WHERE season_end = 2018 AND 
+      team = 'Chicago Bulls'")
+sqldf("SELECT * FROM gini4 WHERE season_end = 2018 AND 
+      team = 'Chicago Bulls'")
 
 sqldf("SELECT COUNT (*) FROM gini4 WHERE team = 'Denver Nuggets'") 
 sqldf("SELECT COUNT (*) FROM gini4 WHERE team = 'Chicago Bulls'")
@@ -145,16 +152,15 @@ gini4 %>%
   pivot_wider(names_from = id, values_from = salary) -> gini5
 head(gini5)
 
-names(gini5) = c("season_end", "team", "s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10",
-                 "s11", "s12", "s13", "s14")
-
-options(scipen = 999)
+names(gini5) = c("season_end", "team", "s1", "s2", "s3", "s4", "s5", 
+                 "s6", "s7", "s8", "s9", "s10", "s11", "s12", "s13", "s14")
 
 head(gini5)
 
 gini5 %>%
-  mutate(gini_index = round(ineq(c(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11,
-                                   s12, s13, s14, na.rm = TRUE)), digits = 2)) -> gini6
+  mutate(gini_index = round(ineq(c(s1, s2, s3, s4, s5, s6, s7, s8, 
+                                   s9, s10, s11, s12, s13, s14, 
+                                   na.rm = TRUE)), digits = 2)) -> gini6
 head(gini6)
 
 records <- read_csv("/Users/garysutton/Library/Mobile Documents/com~apple~CloudDocs/records.csv")
@@ -186,7 +192,8 @@ t.test(giniX$gini_index, giniY$gini_index)
 giniXY <- rbind(giniX, giniY)
 ggplot(giniXY, aes(x = champ, y = gini_index)) +
   geom_boxplot() +
-  labs(title = "Comparison of Gini Coefficients based on Season-End Disposition ",
+  labs(title = "Comparison of Gini Coefficients based on 
+       Season-End Disposition ",
        subtitle = "1991-2018",
        x = "", 
        y = "Gini Coefficients") +
@@ -215,7 +222,8 @@ giniAB <- rbind(giniA, giniB)
 mutate(giniAB, win_pct = ifelse(pct >= 0.50, "y", "n")) -> giniAB
 ggplot(giniAB, aes(x = win_pct, y = gini_index)) + 
   geom_boxplot() +
-  labs(title = "Comparison of Gini Coefficients based on Regular Season Winning Percentage",
+  labs(title = "Comparison of Gini Coefficients based on 
+       Regular Season Winning Percentage",
        subtitle = "1991-2018",
        x = "", 
        y = "Gini Coefficients") +
@@ -229,11 +237,12 @@ ggplot(giniAB, aes(x = win_pct, y = gini_index)) +
 cohen.d(giniA$gini_index, giniB$gini_index)
 
 gini_records %>%
-  mutate(gini_band = case_when(gini_index >= .60 ~ ">0.60",
-                               gini_index >= .50 & gini_index < .60 ~ ">0.50",
-                               gini_index >= .40 & gini_index < .50 ~ ">0.40",
-                               gini_index >= .30 & gini_index < .40 ~ ">0.30",
-                               gini_index < .30 ~ ">0.20")) -> gini_records
+  mutate(gini_band = 
+           case_when(gini_index >= .60 ~ ">0.60",
+                     gini_index >= .50 & gini_index < .60 ~ ">0.50",
+                     gini_index >= .40 & gini_index < .50 ~ ">0.40",
+                     gini_index >= .30 & gini_index < .40 ~ ">0.30",
+                     gini_index < .30 ~ ">0.20")) -> gini_records
 gini_records$gini_band <- as.factor(gini_records$gini_band)
 head(gini_records, n = 3)
 
