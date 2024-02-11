@@ -201,7 +201,7 @@ cor_table <- melt(cor_matrix)
 head(cor_table, n = 3)
 tail(cor_table, n = 3)
 
-p4 <- ggplot(data = draft_cor, aes(x = Var1, 
+p4 <- ggplot(data = cor_table, aes(x = Var1, 
                                    y = Var2, fill = value)) +
   geom_tile() +
   scale_fill_gradient2(midpoint = 0.5, mid = "grey84", 
